@@ -79,7 +79,7 @@ Sword And Stone is a 3D voxel survival game inspired by Vintage Story, built wit
 ### Voxel System Guidelines
 
 1. **Chunk Operations**
-   - Chunks are 16x16x16 voxel segments
+   - Chunks are `CHUNK_SIZE x CHUNK_SIZE x CHUNK_SIZE` voxel segments (typically 16x16x16)
    - Only generate visible faces (hidden faces between solid voxels should be culled)
    - Update chunk meshes only when voxels change
    - Properly handle chunk boundaries to avoid visual artifacts
