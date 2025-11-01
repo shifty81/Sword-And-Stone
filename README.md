@@ -48,18 +48,40 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 ## Project Structure
 
 ```
-├── scripts/
-│   ├── world_generation/   # World generation engine
-│   ├── voxel/              # Voxel and chunk management
-│   ├── player/             # Player controller
-│   ├── crafting/           # Crafting stations and recipes
-│   └── items/              # Item, weapon, and armor classes
+├── assets/                  # Game assets (models, textures, audio, etc.)
+│   ├── audio/              # Music, SFX, and ambient sounds
+│   ├── fonts/              # Custom fonts
+│   ├── models/             # 3D models
+│   ├── sprites/            # 2D sprites and icons
+│   ├── textures/           # Texture files
+│   └── vfx/                # Visual effects
+├── docs/                   # Documentation
+├── resources/              # Custom Godot resources
+│   ├── items/             # Item resource files
+│   ├── recipes/           # Crafting recipes
+│   ├── materials/         # Material resources (cel-shader)
+│   └── themes/            # UI themes
 ├── scenes/                 # Godot scene files
-├── shaders/                # Custom shaders (cel-shading)
-├── materials/              # Material resources
-└── resources/              # Game data and assets
-
+│   ├── main/              # Main game scene
+│   ├── ui/                # User interface scenes
+│   ├── entities/          # Player, NPCs, enemies
+│   └── world/             # World-related scenes
+├── scripts/                # GDScript files
+│   ├── autoload/          # Singleton scripts (GameManager)
+│   ├── components/        # Reusable components
+│   ├── entities/          # Entity scripts
+│   │   └── player/       # Player controller
+│   ├── systems/           # Core game systems
+│   │   ├── crafting/     # Crafting stations
+│   │   ├── inventory/    # Items and inventory
+│   │   ├── voxel/        # Voxel and chunks
+│   │   └── world_generation/  # World generator
+│   ├── ui/               # UI scripts
+│   └── utils/            # Helper scripts
+└── shaders/              # Custom shaders (cel-shading)
 ```
+
+See individual README.md files in each directory for more details.
 
 ## Development Roadmap
 
