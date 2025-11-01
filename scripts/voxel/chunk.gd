@@ -136,7 +136,7 @@ func add_face(surface_tool: SurfaceTool, x: int, y: int, z: int, face: int, voxe
 	var color = VoxelType.get_voxel_color(voxel_type)
 	var vertices = get_face_vertices(x, y, z, face)
 	
-	# Set color once for all vertices of this face (performance optimization)
+	# Set color for all vertices of this face
 	surface_tool.set_color(color)
 	
 	# Add vertices in correct winding order
