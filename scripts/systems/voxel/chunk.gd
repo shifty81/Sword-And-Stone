@@ -75,7 +75,9 @@ func generate_voxels():
 	if chunk_position.y == 2 and (abs(chunk_position.x) <= 1 and abs(chunk_position.z) <= 1):
 		print("Chunk [%d,%d,%d] surface blocks:" % [chunk_position.x, chunk_position.y, chunk_position.z])
 		for voxel_type in surface_block_counts:
-			var type_name = VoxelType.Type.keys()[voxel_type] if voxel_type < VoxelType.Type.size() else "UNKNOWN"
+			var type_name = "UNKNOWN"
+			if voxel_type >= 0 and voxel_type < VoxelType.Type.size():
+				type_name = VoxelType.Type.keys()[voxel_type]
 			print("  %s: %d" % [type_name, surface_block_counts[voxel_type]])
 	
 	# Generate trees on surface (only in chunks at or near surface level)
