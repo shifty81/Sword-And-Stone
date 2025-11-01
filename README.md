@@ -49,10 +49,28 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 3. Press F5 or click the Play button to run
 4. Textures will generate automatically on first run
 
+### Zylann.Voxel Addon (Optional Professional Upgrade)
+
+This project includes the Zylann.Voxel professional voxel engine addon!
+
+**Windows Users - Quick Setup:**
+1. Open PowerShell in project directory
+2. Run: `cd addons\zylann.voxel && .\download_windows_binaries.ps1`
+3. Restart Godot (requires 4.4.1+)
+
+**Benefits:**
+- 6-10x faster chunk generation
+- Level of Detail (LOD) for massive worlds
+- Efficient chunk streaming and management
+- Already integrated with your biomes, rivers, and ore generation!
+
+See [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md) for complete guide or [docs/INTEGRATION_QUICKSTART.md](docs/INTEGRATION_QUICKSTART.md) for quick integration reference.
+
 ### Troubleshooting
+- **"Parsing of config failed" error?** This is now fixed! The addon loads as a GDExtension, not a plugin.
 - **Grey grid on ground?** See [docs/TEXTURE_FIXES.md](docs/TEXTURE_FIXES.md) for solutions
 - **Want to explore other world gen systems?** See [docs/ASSETLIB_GUIDE.md](docs/ASSETLIB_GUIDE.md)
-- **Interested in godot_voxel integration?** See [docs/GODOT_VOXEL_INTEGRATION.md](docs/GODOT_VOXEL_INTEGRATION.md) for professional voxel engine option
+- **Need detailed addon integration info?** See [docs/GODOT_VOXEL_INTEGRATION.md](docs/GODOT_VOXEL_INTEGRATION.md)
 
 ### Controls
 - **W/A/S/D**: Move

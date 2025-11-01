@@ -15,8 +15,9 @@ All credits for this system go to the [Zylann.Voxel Creator](https://github.com/
 
 ## Status
 
-✅ **Addon Enabled** - The addon is configured in project.godot  
-⚠️ **Platform Binaries** - Currently only macOS binaries are included
+✅ **Configuration Fixed** - No more "parsing of config failed" error!  
+✅ **Addon Ready** - Loads automatically as GDExtension  
+⚠️ **Platform Binaries** - Currently only macOS binaries are included (download scripts provided)
 
 ## Requirements
 
@@ -28,10 +29,25 @@ All credits for this system go to the [Zylann.Voxel Creator](https://github.com/
 | Platform | Status | Notes |
 |----------|--------|-------|
 | macOS (Universal) | ✅ Ready | Editor and release binaries included |
+| Windows x86_64 | ⚠️ Needs binaries | Run `.\download_windows_binaries.ps1` |
 | Linux x86_64 | ⚠️ Needs binaries | Run `./download_linux_binaries.sh` |
-| Windows x86_64 | ⚠️ Needs binaries | Download from releases |
 | iOS | ⚠️ Needs binaries | Download from releases |
 | Android | ⚠️ Needs binaries | Download from releases |
+
+## Quick Setup for Windows
+
+If you're on Windows and want to use this addon:
+
+1. Open PowerShell in the addon directory
+2. Run the provided script:
+   ```powershell
+   cd addons\zylann.voxel
+   .\download_windows_binaries.ps1
+   ```
+
+3. Restart Godot
+
+Or manually download from: https://github.com/Zylann/godot_voxel/releases
 
 ## Quick Setup for Linux
 
@@ -44,8 +60,6 @@ If you're on Linux and want to use this addon:
    ```
 
 2. Restart Godot
-
-Or manually download from: https://github.com/Zylann/godot_voxel/releases
 
 See `PLATFORM_BINARIES.md` for detailed instructions.
 

@@ -92,9 +92,7 @@ PhysicsManager="*res://scripts/autoload/physics_manager.gd"
 3d/default_linear_damp=0.1
 3d/default_angular_damp=0.1
 
-[editor_plugins]
 
-enabled=PackedStringArray("res://addons/zylann.voxel/")
 
 [rendering]
 

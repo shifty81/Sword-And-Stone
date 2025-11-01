@@ -40,18 +40,45 @@ To use this addon on other platforms, the following binaries need to be download
 
 ## How to Add Missing Binaries
 
+### Windows (Automated)
+
+1. Open PowerShell as Administrator (recommended) or regular user
+2. Navigate to the addon directory:
+   ```powershell
+   cd path\to\Sword-And-Stone\addons\zylann.voxel
+   ```
+3. Run the download script:
+   ```powershell
+   .\download_windows_binaries.ps1
+   ```
+4. Restart Godot if it was open
+
+### Linux (Automated)
+
+1. Open terminal
+2. Navigate to the addon directory:
+   ```bash
+   cd path/to/Sword-And-Stone/addons/zylann.voxel
+   ```
+3. Run the download script:
+   ```bash
+   ./download_linux_binaries.sh
+   ```
+4. Restart Godot if it was open
+
+### Manual Download (All Platforms)
+
 1. Go to https://github.com/Zylann/godot_voxel/releases
 2. Download the appropriate GDExtension release for Godot 4.4.1+
 3. Extract the downloaded archive
-4. Copy the required `.so` or `.dll` files to the `bin/` directory
+4. Copy the required `.so`, `.dll`, or `.dylib` files to the `bin/` directory
 5. Make sure the file names match those specified in `voxel.gdextension`
 
-## Addon Enabled
+## Addon Configuration
 
-The addon has been enabled in `project.godot` under the `[editor_plugins]` section:
-```
-enabled=PackedStringArray("res://addons/zylann.voxel/")
-```
+The addon is a **GDExtension** and loads automatically through its `voxel.gdextension` file.
+
+⚠️ **Important**: This addon should NOT be enabled in the `[editor_plugins]` section of `project.godot`. GDExtensions are loaded automatically and don't require plugin configuration.
 
 ## Testing
 
