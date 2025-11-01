@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cqm8r4xt5y2pk"]
+
+[ext_resource type="Script" path="res://scripts/crafting/crafting_station.gd" id="1"]
+[ext_resource type="Resource" uid="uid://bq3m7n8xr4k1w" path="res://resources/items/steel_longsword.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+recipe_name = "Steel Longsword"
+required_materials = []
+result_item = ExtResource("2")
+crafting_time = 10.0
+required_station = 1
+required_skill_level = 2

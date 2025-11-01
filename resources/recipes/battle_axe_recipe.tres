@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://b7xn3v9pm4kw2"]
+
+[ext_resource type="Script" path="res://scripts/crafting/crafting_station.gd" id="1"]
+[ext_resource type="Resource" uid="uid://dpx2v5k9mn6qr" path="res://resources/items/battle_axe.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+recipe_name = "Battle Axe"
+required_materials = []
+result_item = ExtResource("2")
+crafting_time = 7.0
+required_station = 1
+required_skill_level = 1

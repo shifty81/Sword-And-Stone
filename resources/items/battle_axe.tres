@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://dpx2v5k9mn6qr"]
+
+[ext_resource type="Script" path="res://resources/items/battle_axe.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Battle Axe"
+item_type = 2
+quality = 1
+description = "A heavy axe designed for combat. High damage but slower attack speed."
+max_stack_size = 1
+durability = 250
+max_durability = 250
+weapon_type = 1
+base_damage = 22.0
+attack_speed = 0.8
+reach_distance = 2.3

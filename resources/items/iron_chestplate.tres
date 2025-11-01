@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://ct4r8w6xp2h9n"]
+
+[ext_resource type="Script" path="res://resources/items/iron_chestplate.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Chestplate"
+item_type = 3
+quality = 1
+description = "Sturdy iron chestplate that provides good protection against physical attacks."
+max_stack_size = 1
+durability = 300
+max_durability = 300
+armor_type = 1
+armor_material = 3
+base_defense = 12.0
+weight = 15.0
