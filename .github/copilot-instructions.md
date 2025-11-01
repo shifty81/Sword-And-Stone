@@ -79,7 +79,7 @@ Sword And Stone is a 3D voxel survival game inspired by Vintage Story, built wit
 ### Voxel System Guidelines
 
 1. **Chunk Operations**
-   - Chunks are `CHUNK_SIZE x CHUNK_SIZE x CHUNK_SIZE` voxel segments (typically 16x16x16)
+   - Chunks are typically 16x16x16 voxel segments (configurable via `chunk_size` variable)
    - Only generate visible faces (hidden faces between solid voxels should be culled)
    - Update chunk meshes only when voxels change
    - Properly handle chunk boundaries to avoid visual artifacts
@@ -164,17 +164,18 @@ func _init():
 ### Chunk Coordinate Conversions
 ```gdscript
 # World position to chunk position
+# chunk_size is typically passed from WorldGenerator (default 16)
 var chunk_pos = Vector3i(
-    floor(world_pos.x / CHUNK_SIZE),
-    floor(world_pos.y / CHUNK_SIZE),
-    floor(world_pos.z / CHUNK_SIZE)
+    floor(world_pos.x / chunk_size),
+    floor(world_pos.y / chunk_size),
+    floor(world_pos.z / chunk_size)
 )
 
 # Voxel position within chunk
 var local_pos = Vector3i(
-    int(world_pos.x) % CHUNK_SIZE,
-    int(world_pos.y) % CHUNK_SIZE,
-    int(world_pos.z) % CHUNK_SIZE
+    int(world_pos.x) % chunk_size,
+    int(world_pos.y) % chunk_size,
+    int(world_pos.z) % chunk_size
 )
 ```
 
