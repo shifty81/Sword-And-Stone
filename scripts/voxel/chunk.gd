@@ -11,6 +11,7 @@ var chunk_size: int
 var voxels: Array = []
 var mesh_instance: MeshInstance3D
 var collision_shape: CollisionShape3D
+var voxel_material: Material
 
 func initialize(generator: WorldGenerator, chunk_pos: Vector3i, size: int):
 	world_generator = generator
@@ -25,6 +26,9 @@ func initialize(generator: WorldGenerator, chunk_pos: Vector3i, size: int):
 		for y in range(chunk_size):
 			voxels[x][y] = []
 			voxels[x][y].resize(chunk_size)
+	
+	# Load voxel material
+	voxel_material = load("res://materials/cel_material.tres")
 	
 	# Create mesh instance
 	mesh_instance = MeshInstance3D.new()
@@ -84,6 +88,10 @@ func generate_mesh():
 	surface_tool.generate_normals()
 	var mesh = surface_tool.commit()
 	mesh_instance.mesh = mesh
+	
+	# Apply material to the mesh
+	if voxel_material:
+		mesh_instance.set_surface_override_material(0, voxel_material)
 	
 	# Create collision shape from mesh
 	var shape = mesh.create_trimesh_shape()
