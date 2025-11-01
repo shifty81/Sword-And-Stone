@@ -94,7 +94,9 @@ func should_draw_face(x: int, y: int, z: int, dx: int, dy: int, dz: int) -> bool
 	var ny = y + dy
 	var nz = z + dz
 	
-	# If neighbor is outside chunk, assume it should be drawn
+	# If neighbor is outside chunk, check adjacent chunk
+	# For now, we draw the face (simpler approach)
+	# TODO: Query adjacent chunks to prevent gaps at chunk boundaries
 	if nx < 0 or nx >= chunk_size or ny < 0 or ny >= chunk_size or nz < 0 or nz >= chunk_size:
 		return true
 	

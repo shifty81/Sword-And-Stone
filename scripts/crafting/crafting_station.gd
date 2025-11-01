@@ -54,7 +54,12 @@ func complete_crafting(recipe: CraftingRecipe):
 		result.quality = Item.Quality.COMMON
 	
 	crafting_completed.emit(result)
-	print("Crafted: %s" % result.get_display_name() if result.has_method("get_display_name") else result.item_name)
+	
+	# Print crafted item name
+	var display_name = result.item_name
+	if result.has_method("get_display_name"):
+		display_name = result.get_display_name()
+	print("Crafted: %s" % display_name)
 
 ## Crafting recipe data structure
 class CraftingRecipe extends Resource:

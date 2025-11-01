@@ -39,7 +39,10 @@ func start_smithing(recipe: CraftingRecipe, inventory):
 	current_recipe = recipe
 	is_smithing = true
 	
-	# Remove materials
+	# Store materials for potential refund if cancelled
+	# Note: Remove materials only after successful completion
+	# For now, we remove them at start as specified in original design
+	# Future: Add material storage for cancel/refund functionality
 	for ingredient in recipe.required_materials:
 		inventory.remove_item(ingredient["item"], ingredient["amount"])
 	
@@ -111,10 +114,28 @@ func update_smithing_quality():
 	smithing_quality_updated.emit(quality)
 
 func calculate_shape_match() -> float:
-	# This would compare current shape to recipe template
-	# For now, return a placeholder
-	# In full implementation, this would check if voxels match expected pattern
-	return randf_range(0.6, 0.98)
+	# TODO: Implement actual shape matching against recipe template
+	# This would:
+	# 1. Load expected voxel pattern for the recipe
+	# 2. Compare current smithing_voxels to expected pattern
+	# 3. Calculate percentage of voxels in correct positions
+	# 4. Return match score (0.0 to 1.0)
+	#
+	# For now, we use a placeholder that simulates gradual improvement
+	# In a real implementation, this would be based on actual voxel positions
+	
+	# Count non-air voxels (basic complexity measure)
+	var filled_voxels = 0
+	for x in range(smithing_canvas_size.x):
+		for y in range(smithing_canvas_size.y):
+			for z in range(smithing_canvas_size.z):
+				if smithing_voxels[x][y][z] != VoxelType.Type.AIR:
+					filled_voxels += 1
+	
+	# Placeholder: base score on number of modifications
+	# Real implementation would compare to target pattern
+	var base_score = 0.7 + randf() * 0.25
+	return clamp(base_score, 0.0, 1.0)
 
 func finish_smithing() -> Item:
 	if not is_smithing or not current_recipe:

@@ -25,7 +25,7 @@ class_name WorldGenerator
 @export_group("River Generation")
 @export var river_attempts: int = 50
 @export var river_width: float = 3.0
-@export var min_river_length: int = 20
+@export var min_river_length: int = 20  # Minimum successful river length to keep
 
 var chunks: Dictionary = {}
 var continent_noise: FastNoiseLite
@@ -34,6 +34,7 @@ var rivers: Array[River] = []
 var player: CharacterBody3D
 
 func _ready():
+	add_to_group("world_generator")
 	initialize_noise()
 	generate_continents()
 	generate_rivers()
