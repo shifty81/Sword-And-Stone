@@ -29,7 +29,7 @@ func initialize(generator: WorldGenerator, chunk_pos: Vector3i, size: int):
 			voxels[x][y].resize(chunk_size)
 	
 	# Load voxel material with error handling
-	voxel_material = load("res://materials/cel_material.tres")
+	voxel_material = load("res://resources/materials/cel_material.tres")
 	if voxel_material == null:
 		push_error("Failed to load cel_material.tres - voxels will render with default material")
 	

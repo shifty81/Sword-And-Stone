@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://b4n5xqp1v4rw8"]
 
-[ext_resource type="Script" path="res://scripts/world_generation/world_generator.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/systems/world_generation/world_generator.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/entities/player/player_controller.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://cqx8y4r5v2n1m" path="res://scenes/hud.tscn" id="3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
