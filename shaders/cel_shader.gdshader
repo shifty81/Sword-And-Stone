@@ -1,7 +1,7 @@
 shader_type spatial;
-render_mode unshaded;
 
 // Borderlands-style cel-shaded shader with thick outlines
+// Fixed version to handle edge cases and ensure proper color rendering
 
 uniform vec4 albedo : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform int cel_levels : hint_range(2, 8) = 4;
@@ -10,41 +10,39 @@ uniform vec4 outline_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 uniform float specular_strength : hint_range(0.0, 1.0) = 0.3;
 uniform float rim_strength : hint_range(0.0, 1.0) = 0.5;
 
-varying vec3 world_normal;
-varying vec3 world_position;
 varying vec4 vertex_color;
 
 void vertex() {
-	world_normal = (MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz;
-	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	vertex_color = COLOR;
 }
 
 void fragment() {
-	// Get view direction
-	vec3 view_dir = normalize(CAMERA_POSITION_WORLD - world_position);
-	vec3 normal = normalize(world_normal);
+	// Use vertex color as base (ensure it's not lost)
+	vec3 base_color = vertex_color.rgb * albedo.rgb;
 	
-	// Calculate lighting from main light
+	// Ensure we have a minimum color to prevent pure black/grey
+	if (base_color.r < 0.01 && base_color.g < 0.01 && base_color.b < 0.01) {
+		base_color = vec3(0.5); // Fallback grey if color is missing
+	}
+	
+	// Calculate lighting from fixed directional light
 	vec3 light_dir = normalize(vec3(0.5, 1.0, 0.3));
-	float NdotL = dot(normal, light_dir);
+	float NdotL = dot(NORMAL, light_dir);
 	
 	// Cel-shading: quantize lighting into discrete levels
 	float cel_intensity = floor(max(NdotL, 0.0) * float(cel_levels)) / float(cel_levels);
-	cel_intensity = max(cel_intensity, 0.2); // Minimum ambient
+	cel_intensity = max(cel_intensity, 0.3); // Minimum ambient lighting
 	
 	// Rim lighting for Borderlands-style effect
-	float rim = 1.0 - max(dot(view_dir, normal), 0.0);
+	vec3 view_dir = normalize(VIEW);
+	float rim = 1.0 - max(dot(view_dir, NORMAL), 0.0);
 	rim = smoothstep(0.6, 1.0, rim);
 	vec3 rim_light = vec3(rim) * rim_strength;
 	
 	// Specular highlight
 	vec3 half_dir = normalize(light_dir + view_dir);
-	float spec = pow(max(dot(normal, half_dir), 0.0), 32.0);
+	float spec = pow(max(dot(NORMAL, half_dir), 0.0), 32.0);
 	spec = step(0.5, spec) * specular_strength;
-	
-	// Use vertex color if available, otherwise use uniform albedo
-	vec3 base_color = vertex_color.rgb * albedo.rgb;
 	
 	// Combine lighting
 	vec3 final_color = base_color * cel_intensity;
@@ -52,7 +50,7 @@ void fragment() {
 	final_color += vec3(spec);
 	
 	// Edge detection for outline (view-angle based)
-	float edge = 1.0 - abs(dot(view_dir, normal));
+	float edge = 1.0 - abs(dot(view_dir, NORMAL));
 	edge = smoothstep(0.0, outline_thickness * 10.0, edge);
 	
 	// Apply outline
