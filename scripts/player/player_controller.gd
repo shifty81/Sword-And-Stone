@@ -12,10 +12,12 @@ class_name PlayerController
 
 @export_group("Interaction")
 @export var reach: float = 5.0
+@export var interact_cooldown: float = 0.1  # Minimum time between interactions
 
 var gravity = 20.0
 var camera: Camera3D
 var camera_pivot: Node3D
+var last_interact_time: float = 0.0
 
 func _ready():
 	add_to_group("player")
@@ -82,8 +84,16 @@ func handle_interaction():
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 		return
 	
+	# Throttle interactions to prevent spam
+	var current_time = Time.get_ticks_msec() / 1000.0
+	if current_time - last_interact_time < interact_cooldown:
+		return
+	
 	# Raycast for voxel interaction
 	var space_state = get_world_3d().direct_space_state
+	if not space_state:
+		return
+	
 	var from = camera.global_position
 	var to = from + (-camera.global_transform.basis.z * reach)
 	
@@ -94,33 +104,49 @@ func handle_interaction():
 		# Left click to break voxel
 		if Input.is_action_just_pressed("break_voxel"):
 			break_voxel(result)
+			last_interact_time = current_time
 		
 		# Right click to place voxel
 		if Input.is_action_just_pressed("place_voxel"):
 			place_voxel(result)
+			last_interact_time = current_time
 
 func break_voxel(hit: Dictionary):
 	var chunk = hit.collider as Chunk
-	if chunk:
-		var hit_point = hit.position - hit.normal * 0.5
-		var local_pos = hit_point - chunk.global_position
-		
-		var x = floori(local_pos.x)
-		var y = floori(local_pos.y)
-		var z = floori(local_pos.z)
-		
-		chunk.set_voxel(x, y, z, VoxelType.Type.AIR)
-		print("Broke voxel at (%d, %d, %d)" % [x, y, z])
+	if not chunk:
+		return
+	
+	var hit_point = hit.position - hit.normal * 0.5
+	var local_pos = hit_point - chunk.global_position
+	
+	var x = floori(local_pos.x)
+	var y = floori(local_pos.y)
+	var z = floori(local_pos.z)
+	
+	# Verify the voxel coordinates are valid
+	if x < 0 or x >= chunk.chunk_size or y < 0 or y >= chunk.chunk_size or z < 0 or z >= chunk.chunk_size:
+		print("Invalid voxel coordinates: (%d, %d, %d)" % [x, y, z])
+		return
+	
+	chunk.set_voxel(x, y, z, VoxelType.Type.AIR)
+	print("Broke voxel at (%d, %d, %d)" % [x, y, z])
 
 func place_voxel(hit: Dictionary):
 	var chunk = hit.collider as Chunk
-	if chunk:
-		var hit_point = hit.position + hit.normal * 0.5
-		var local_pos = hit_point - chunk.global_position
-		
-		var x = floori(local_pos.x)
-		var y = floori(local_pos.y)
-		var z = floori(local_pos.z)
-		
-		chunk.set_voxel(x, y, z, VoxelType.Type.STONE)
-		print("Placed voxel at (%d, %d, %d)" % [x, y, z])
+	if not chunk:
+		return
+	
+	var hit_point = hit.position + hit.normal * 0.5
+	var local_pos = hit_point - chunk.global_position
+	
+	var x = floori(local_pos.x)
+	var y = floori(local_pos.y)
+	var z = floori(local_pos.z)
+	
+	# Verify the voxel coordinates are valid
+	if x < 0 or x >= chunk.chunk_size or y < 0 or y >= chunk.chunk_size or z < 0 or z >= chunk.chunk_size:
+		print("Invalid voxel coordinates: (%d, %d, %d)" % [x, y, z])
+		return
+	
+	chunk.set_voxel(x, y, z, VoxelType.Type.STONE)
+	print("Placed voxel at (%d, %d, %d)" % [x, y, z])

@@ -66,6 +66,7 @@ func generate_mesh():
 	var surface_tool = SurfaceTool.new()
 	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 	
+	var has_geometry = false
 	for x in range(chunk_size):
 		for y in range(chunk_size):
 			for z in range(chunk_size):
@@ -77,25 +78,37 @@ func generate_mesh():
 				# Check each face
 				if should_draw_face(x, y, z, 0, 1, 0):  # Top
 					add_face(surface_tool, x, y, z, 0, voxel)
+					has_geometry = true
 				if should_draw_face(x, y, z, 0, -1, 0):  # Bottom
 					add_face(surface_tool, x, y, z, 1, voxel)
+					has_geometry = true
 				if should_draw_face(x, y, z, -1, 0, 0):  # Left
 					add_face(surface_tool, x, y, z, 2, voxel)
+					has_geometry = true
 				if should_draw_face(x, y, z, 1, 0, 0):  # Right
 					add_face(surface_tool, x, y, z, 3, voxel)
+					has_geometry = true
 				if should_draw_face(x, y, z, 0, 0, 1):  # Front
 					add_face(surface_tool, x, y, z, 4, voxel)
+					has_geometry = true
 				if should_draw_face(x, y, z, 0, 0, -1):  # Back
 					add_face(surface_tool, x, y, z, 5, voxel)
+					has_geometry = true
+	
+	# Only commit if there's actual geometry
+	if not has_geometry:
+		mesh_instance.mesh = null
+		collision_shape.shape = null
+		return
 	
 	surface_tool.generate_normals()
 	var mesh = surface_tool.commit()
 	mesh_instance.mesh = mesh
 	
 	# Apply material to the mesh with verification
-	if voxel_material:
+	if voxel_material and mesh:
 		mesh_instance.set_surface_override_material(0, voxel_material)
-	else:
+	elif not voxel_material:
 		push_warning("Chunk at %s: No material loaded, using default" % [chunk_position])
 	
 	# Create collision shape from mesh
