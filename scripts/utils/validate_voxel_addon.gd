@@ -2,6 +2,9 @@ extends Node
 ## Validation script to check if the Zylann.Voxel addon is properly set up
 ## Run this script to verify the addon integration
 
+# Minimum required Godot version for the addon
+const MINIMUM_GODOT_VERSION = "4.4.1"
+
 func _ready():
 	print("\n=== Zylann.Voxel Addon Integration Check ===\n")
 	
@@ -67,7 +70,7 @@ func _ready():
 		checks_passed += 1
 	else:
 		print("⚠️  Voxel classes NOT available")
-		print("   This is expected if platform binaries are missing or Godot version < 4.4.1")
+		print("   This is expected if platform binaries are missing or Godot version < %s" % MINIMUM_GODOT_VERSION)
 	
 	# Summary
 	print("\n=== Summary ===")
