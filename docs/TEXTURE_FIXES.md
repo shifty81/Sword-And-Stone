@@ -5,11 +5,12 @@ The "grey grid on the ground" issue has been addressed with the following change
 
 ### 1. Texture Generation (Completed)
 - **Added TextureLoader as autoload**: Textures now generate automatically on game startup
-- **Generated all 19 terrain textures**: All procedural textures are now created including:
+- **Generated 19 terrain textures**: All major terrain textures are now created including:
   - Basic terrain: grass, dirt, stone, sand, snow, ice, gravel
   - Vegetation: wood, leaves
   - Building materials: cobblestone, wood_planks, thatch, bricks
   - Ores: coal, iron, copper, tin, gold, silver
+- **Note**: Some blocks (BEDROCK, WATER, CLAY, STONE_BRICKS) use vertex colors only and don't have separate texture files
 
 ### 2. Improved Visual Brightness (Completed)
 - **Brightened all voxel colors**: Increased color values by 20-30% for better visibility
