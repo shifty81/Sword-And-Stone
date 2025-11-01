@@ -8,13 +8,14 @@ func _ready():
 	var checks_passed = 0
 	var checks_total = 0
 	
-	# Check 1: Plugin enabled in project settings
+	# Check 1: GDExtension configuration is correct
 	checks_total += 1
-	if check_plugin_enabled():
-		print("✅ Plugin enabled in project.godot")
+	if check_gdextension_config():
+		print("✅ GDExtension configuration is correct (no editor_plugins entry)")
 		checks_passed += 1
 	else:
-		print("❌ Plugin NOT enabled in project.godot")
+		print("❌ INCORRECT: Addon is listed in editor_plugins (should be removed)")
+		print("   GDExtensions load automatically, not as plugins")
 	
 	# Check 2: GDExtension file exists
 	checks_total += 1
@@ -34,7 +35,12 @@ func _ready():
 	elif binary_path:
 		print("⚠️  Platform binaries NOT found for: %s" % platform)
 		print("   Expected at: %s" % binary_path)
-		print("   See addons/zylann.voxel/PLATFORM_BINARIES.md for installation")
+		if platform == "windows":
+			print("   Run: cd addons\\zylann.voxel && .\\download_windows_binaries.ps1")
+		elif platform == "linux":
+			print("   Run: cd addons/zylann.voxel && ./download_linux_binaries.sh")
+		else:
+			print("   See addons/zylann.voxel/PLATFORM_BINARIES.md for installation")
 	else:
 		print("⚠️  Unknown platform or binary path")
 	
@@ -57,11 +63,11 @@ func _ready():
 	# Check 6: Try to check if classes are available (will only work if binaries are present)
 	checks_total += 1
 	if check_voxel_classes_available():
-		print("✅ Voxel classes are available (binaries loaded)")
+		print("✅ Voxel classes are available (binaries loaded successfully)")
 		checks_passed += 1
 	else:
-		print("⚠️  Voxel classes NOT available (binaries not loaded or wrong platform)")
-		print("   This is expected if platform binaries are missing")
+		print("⚠️  Voxel classes NOT available")
+		print("   This is expected if platform binaries are missing or Godot version < 4.4.1")
 	
 	# Summary
 	print("\n=== Summary ===")
@@ -72,7 +78,7 @@ func _ready():
 		print("   Open scenes/test/voxel_terrain_test.tscn to test it")
 	elif checks_passed >= checks_total - 1:
 		print("\n⚠️  MOSTLY READY: The addon is configured but may need platform binaries")
-		print("   See addons/zylann.voxel/PLATFORM_BINARIES.md for details")
+		print("   Follow the instructions above to download binaries")
 	else:
 		print("\n❌ SETUP INCOMPLETE: Several components are missing")
 		print("   Review the failed checks above")
@@ -84,15 +90,17 @@ func _ready():
 		await get_tree().create_timer(5.0).timeout
 		get_tree().quit()
 
-func check_plugin_enabled() -> bool:
-	# Check if the plugin is listed in project settings
+func check_gdextension_config() -> bool:
+	# Check that the addon is NOT listed in editor_plugins
+	# GDExtensions should load automatically, not as plugins
 	var config = ConfigFile.new()
 	var err = config.load("res://project.godot")
 	if err != OK:
 		return false
 	
 	var enabled_plugins = config.get_value("editor_plugins", "enabled", PackedStringArray())
-	return "res://addons/zylann.voxel/" in enabled_plugins
+	# Return true if NOT in the list (correct configuration)
+	return not ("res://addons/zylann.voxel/" in enabled_plugins)
 
 func get_platform_name() -> String:
 	# Note: BSD variants may or may not be compatible with Linux binaries
