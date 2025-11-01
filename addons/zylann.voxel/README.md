@@ -15,8 +15,9 @@ All credits for this system go to the [Zylann.Voxel Creator](https://github.com/
 
 ## Status
 
-✅ **Addon Enabled** - The addon is configured in project.godot  
-⚠️ **Platform Binaries** - Currently only macOS binaries are included
+✅ **Configuration Fixed** - No more "parsing of config failed" error!  
+✅ **Addon Ready** - Loads automatically as GDExtension  
+⚠️ **Platform Binaries** - Currently only macOS binaries are included (download scripts provided)
 
 ## Requirements
 
