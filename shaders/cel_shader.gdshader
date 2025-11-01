@@ -12,10 +12,12 @@ uniform float rim_strength : hint_range(0.0, 1.0) = 0.5;
 
 varying vec3 world_normal;
 varying vec3 world_position;
+varying vec4 vertex_color;
 
 void vertex() {
 	world_normal = (MODEL_MATRIX * vec4(NORMAL, 0.0)).xyz;
 	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	vertex_color = COLOR;
 }
 
 void fragment() {
@@ -41,9 +43,12 @@ void fragment() {
 	float spec = pow(max(dot(normal, half_dir), 0.0), 32.0);
 	spec = step(0.5, spec) * specular_strength;
 	
+	// Use vertex color if available, otherwise use uniform albedo
+	vec3 base_color = vertex_color.rgb * albedo.rgb;
+	
 	// Combine lighting
-	vec3 final_color = albedo.rgb * cel_intensity;
-	final_color += rim_light * albedo.rgb;
+	vec3 final_color = base_color * cel_intensity;
+	final_color += rim_light * base_color;
 	final_color += vec3(spec);
 	
 	// Edge detection for outline (view-angle based)
