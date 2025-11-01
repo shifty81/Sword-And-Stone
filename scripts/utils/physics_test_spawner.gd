@@ -7,6 +7,8 @@ extends Node3D
 @export var spawn_height: float = 10.0
 
 var player: Node3D = null
+var last_spawn_time: Dictionary = {}
+var spawn_cooldown: float = 0.2  # 200ms cooldown between spawns
 
 func _ready():
 	print("PhysicsTestSpawner ready! Controls:")
@@ -27,21 +29,34 @@ func _process(_delta):
 		# Clean up all spawned objects
 		cleanup_physics_objects()
 	
-	# Spawn different physics objects
-	if Input.is_key_pressed(KEY_1):
+	var current_time = Time.get_ticks_msec() / 1000.0
+	
+	# Spawn different physics objects with cooldown
+	if Input.is_key_pressed(KEY_1) and can_spawn("item", current_time):
 		spawn_physics_item()
+		last_spawn_time["item"] = current_time
 	
-	if Input.is_key_pressed(KEY_2):
+	if Input.is_key_pressed(KEY_2) and can_spawn("projectile", current_time):
 		spawn_projectile()
+		last_spawn_time["projectile"] = current_time
 	
-	if Input.is_key_pressed(KEY_3):
+	if Input.is_key_pressed(KEY_3) and can_spawn("block", current_time):
 		spawn_falling_block()
+		last_spawn_time["block"] = current_time
 	
-	if Input.is_key_pressed(KEY_4):
+	if Input.is_key_pressed(KEY_4) and can_spawn("ball", current_time):
 		spawn_bouncy_ball()
+		last_spawn_time["ball"] = current_time
 	
-	if Input.is_key_pressed(KEY_5):
+	if Input.is_key_pressed(KEY_5) and can_spawn("debug", current_time):
 		toggle_physics_debug()
+		last_spawn_time["debug"] = current_time
+
+func can_spawn(key: String, current_time: float) -> bool:
+	"""Check if enough time has passed since last spawn of this type"""
+	if not last_spawn_time.has(key):
+		return true
+	return current_time - last_spawn_time[key] >= spawn_cooldown
 
 func get_spawn_position() -> Vector3:
 	"""Get a position in front of the player"""
@@ -104,7 +119,11 @@ func spawn_bouncy_ball():
 	# Configure physics with rubber material for bounce
 	ball.mass = 0.5
 	ball.physics_material_override = PhysicsManager.get_physics_material("rubber")
-	PhysicsManager.set_collision_layer_and_mask(ball, PhysicsManager.LAYER_ITEMS, PhysicsManager.LAYER_WORLD)
+	PhysicsManager.set_collision_layer_and_mask(
+		ball, 
+		PhysicsManager.LAYER_ITEMS, 
+		PhysicsManager.get_layer_mask(PhysicsManager.LAYER_WORLD)
+	)
 	PhysicsManager.register_rigid_body(ball)
 	
 	get_tree().root.add_child(ball)

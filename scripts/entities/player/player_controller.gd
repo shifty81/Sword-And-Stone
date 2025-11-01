@@ -27,7 +27,7 @@ func _ready():
 		PhysicsManager.set_collision_layer_and_mask(
 			self, 
 			PhysicsManager.LAYER_PLAYER, 
-			PhysicsManager.LAYER_WORLD | PhysicsManager.LAYER_ITEMS
+			PhysicsManager.get_layer_mask(PhysicsManager.LAYER_WORLD) | PhysicsManager.get_layer_mask(PhysicsManager.LAYER_ITEMS)
 		)
 	
 	# Create camera pivot for look rotation

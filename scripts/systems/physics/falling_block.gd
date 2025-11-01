@@ -20,7 +20,11 @@ func _ready():
 	# Apply physics material
 	if PhysicsManager:
 		physics_material_override = PhysicsManager.get_physics_material("stone")
-		PhysicsManager.set_collision_layer_and_mask(self, PhysicsManager.LAYER_ITEMS, PhysicsManager.LAYER_WORLD)
+		PhysicsManager.set_collision_layer_and_mask(
+			self, 
+			PhysicsManager.LAYER_ITEMS, 
+			PhysicsManager.get_layer_mask(PhysicsManager.LAYER_WORLD)
+		)
 		PhysicsManager.register_rigid_body(self)
 	
 	# Connect signals

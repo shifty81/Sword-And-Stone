@@ -111,10 +111,17 @@ func get_layer_mask(layer: int) -> int:
 	return 1 << (layer - 1)
 
 func set_collision_layer_and_mask(node: CollisionObject3D, layer: int, mask: int = 0):
-	"""Helper to set collision layer and mask on a CollisionObject3D"""
+	"""Helper to set collision layer and mask on a CollisionObject3D
+	
+	Args:
+		node: The collision object to configure
+		layer: Single layer number (1-7) for this object
+		mask: Pre-computed collision mask (use get_layer_mask() or bitwise OR of masks)
+	"""
 	node.collision_layer = get_layer_mask(layer)
 	if mask > 0:
-		node.collision_mask = get_layer_mask(mask)
+		# Mask is already a pre-computed bitmask, use directly
+		node.collision_mask = mask
 	else:
 		# Default: collide with everything except self
 		node.collision_mask = 0xFFFFFFFF & ~get_layer_mask(layer)
@@ -141,7 +148,7 @@ func create_item_drop(item_position: Vector3, item_type: int = 0) -> RigidBody3D
 	# Configure physics properties
 	item.mass = 0.5
 	item.physics_material_override = get_physics_material("stone")
-	set_collision_layer_and_mask(item, LAYER_ITEMS, LAYER_WORLD)
+	set_collision_layer_and_mask(item, LAYER_ITEMS, get_layer_mask(LAYER_WORLD))
 	
 	# Add custom data for item type
 	item.set_meta("item_type", item_type)
@@ -176,7 +183,7 @@ func create_projectile(start_position: Vector3, direction: Vector3, speed: float
 	# Configure physics
 	projectile.mass = 0.1
 	projectile.physics_material_override = get_physics_material("metal")
-	set_collision_layer_and_mask(projectile, LAYER_PROJECTILES, LAYER_WORLD | LAYER_ENEMIES)
+	set_collision_layer_and_mask(projectile, LAYER_PROJECTILES, get_layer_mask(LAYER_WORLD) | get_layer_mask(LAYER_ENEMIES))
 	
 	# Apply initial velocity
 	projectile.linear_velocity = direction.normalized() * speed
@@ -188,12 +195,16 @@ func create_projectile(start_position: Vector3, direction: Vector3, speed: float
 	# Register with manager
 	register_rigid_body(projectile)
 	
-	# Auto-cleanup after 10 seconds
-	await get_tree().create_timer(10.0).timeout
-	if is_instance_valid(projectile):
-		projectile.queue_free()
+	# Auto-cleanup after 10 seconds (non-blocking)
+	_cleanup_projectile_after_delay(projectile, 10.0)
 	
 	return projectile
+
+func _cleanup_projectile_after_delay(projectile: RigidBody3D, delay: float):
+	"""Internal helper to cleanup projectiles after a delay"""
+	await get_tree().create_timer(delay).timeout
+	if is_instance_valid(projectile):
+		projectile.queue_free()
 
 func create_falling_block(block_position: Vector3, voxel_type: int) -> RigidBody3D:
 	"""Create a falling block that respects physics"""
@@ -217,7 +228,7 @@ func create_falling_block(block_position: Vector3, voxel_type: int) -> RigidBody
 	# Configure physics
 	block.mass = 2.0
 	block.physics_material_override = get_physics_material("stone")
-	set_collision_layer_and_mask(block, LAYER_ITEMS, LAYER_WORLD)
+	set_collision_layer_and_mask(block, LAYER_ITEMS, get_layer_mask(LAYER_WORLD))
 	
 	# Add metadata
 	block.set_meta("is_falling_block", true)

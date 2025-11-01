@@ -24,7 +24,7 @@ func _ready():
 		PhysicsManager.set_collision_layer_and_mask(
 			self, 
 			PhysicsManager.LAYER_PROJECTILES, 
-			PhysicsManager.LAYER_WORLD | PhysicsManager.LAYER_ENEMIES
+			PhysicsManager.get_layer_mask(PhysicsManager.LAYER_WORLD) | PhysicsManager.get_layer_mask(PhysicsManager.LAYER_ENEMIES)
 		)
 		PhysicsManager.register_rigid_body(self)
 	
