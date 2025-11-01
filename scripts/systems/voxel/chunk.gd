@@ -75,12 +75,12 @@ func generate_voxels():
 						surface_block_counts[voxel_type] += 1
 	
 	# Log surface composition for chunks near player start
-	if chunk_position.y == DEBUG_CHUNK_Y and (abs(chunk_position.x) <= DEBUG_RANGE_X and abs(chunk_position.z) <= DEBUG_RANGE_Z):
+	if chunk_position.y == DEBUG_CHUNK_Y and abs(chunk_position.x) <= DEBUG_RANGE_X and abs(chunk_position.z) <= DEBUG_RANGE_Z:
 		print("Chunk [%d,%d,%d] surface blocks:" % [chunk_position.x, chunk_position.y, chunk_position.z])
 		for voxel_type in surface_block_counts:
 			var type_name = "UNKNOWN"
 			var type_keys = VoxelType.Type.keys()
-			# Use type_keys.size() which matches the enum size
+			# type_keys contains all enum values in order, guaranteed by Godot
 			if voxel_type >= 0 and voxel_type < type_keys.size():
 				type_name = type_keys[voxel_type]
 			print("  %s: %d" % [type_name, surface_block_counts[voxel_type]])

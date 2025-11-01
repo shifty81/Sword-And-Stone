@@ -21,13 +21,14 @@ This guide explains how to explore and integrate world generation assets from Go
   - Efficient chunk streaming
 
 **Installation**:
-```bash
-# Option A: Download from AssetLib in Godot Editor
+
+Option A: Download from AssetLib in Godot Editor
 1. Open AssetLib tab
 2. Search "Voxel Tools"
 3. Download and install
 
-# Option B: Clone from GitHub
+Option B: Clone from GitHub
+```bash
 cd addons/
 git clone https://github.com/Zylann/godot_voxel.git voxel
 ```
