@@ -12,9 +12,9 @@ var voxels: Array = []
 var mesh_instance: MeshInstance3D
 var collision_shape: CollisionShape3D
 
-func initialize(generator: WorldGenerator, position: Vector3i, size: int):
+func initialize(generator: WorldGenerator, chunk_pos: Vector3i, size: int):
 	world_generator = generator
-	chunk_position = position
+	chunk_position = chunk_pos
 	chunk_size = size
 	
 	# Initialize 3D voxel array
