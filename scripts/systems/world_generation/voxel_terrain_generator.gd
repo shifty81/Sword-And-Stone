@@ -18,6 +18,7 @@ var ore_noise: FastNoiseLite
 var biome_generator: BiomeGenerator
 
 # Constants for voxel type mapping
+# NOTE: These IDs must match the VoxelBlockyLibrary setup in the test scene
 const VOXEL_AIR = 0
 const VOXEL_GRASS = 1
 const VOXEL_DIRT = 2
@@ -27,6 +28,21 @@ const VOXEL_WATER = 5
 const VOXEL_SAND = 6
 const VOXEL_WOOD = 7
 const VOXEL_LEAVES = 8
+const VOXEL_IRON_ORE = 9
+const VOXEL_COPPER_ORE = 10
+const VOXEL_TIN_ORE = 11
+const VOXEL_COAL = 12
+const VOXEL_CLAY = 13
+const VOXEL_COBBLESTONE = 14
+const VOXEL_WOOD_PLANKS = 15
+const VOXEL_THATCH = 16
+const VOXEL_BRICKS = 17
+const VOXEL_STONE_BRICKS = 18
+const VOXEL_GOLD_ORE = 19
+const VOXEL_SILVER_ORE = 20
+const VOXEL_SNOW = 21
+const VOXEL_ICE = 22
+const VOXEL_GRAVEL = 23
 
 func _init():
 	initialize_noise()
@@ -157,6 +173,18 @@ func get_ore_type(x: float, y: float, z: float) -> VoxelType.Type:
 	if y > -80 and y < 20 and ore_value > 0.87:
 		return VoxelType.Type.COPPER_ORE
 	
+	# Tin: -60 to 40
+	if y > -60 and y < 40 and ore_value > 0.89:
+		return VoxelType.Type.TIN_ORE
+	
+	# Gold: -200 to -50 (deep)
+	if y > -200 and y < -50 and ore_value > 0.92:
+		return VoxelType.Type.GOLD_ORE
+	
+	# Silver: -150 to -30 (deep)
+	if y > -150 and y < -30 and ore_value > 0.91:
+		return VoxelType.Type.SILVER_ORE
+	
 	return VoxelType.Type.STONE
 
 func map_voxel_type_to_id(type: VoxelType.Type) -> int:
@@ -182,10 +210,34 @@ func map_voxel_type_to_id(type: VoxelType.Type) -> int:
 		VoxelType.Type.LEAVES:
 			return VOXEL_LEAVES
 		VoxelType.Type.IRON_ORE:
-			return VOXEL_STONE  # For simplicity, map ores to stone for now
+			return VOXEL_IRON_ORE
 		VoxelType.Type.COPPER_ORE:
-			return VOXEL_STONE
+			return VOXEL_COPPER_ORE
+		VoxelType.Type.TIN_ORE:
+			return VOXEL_TIN_ORE
 		VoxelType.Type.COAL:
-			return VOXEL_STONE
+			return VOXEL_COAL
+		VoxelType.Type.CLAY:
+			return VOXEL_CLAY
+		VoxelType.Type.COBBLESTONE:
+			return VOXEL_COBBLESTONE
+		VoxelType.Type.WOOD_PLANKS:
+			return VOXEL_WOOD_PLANKS
+		VoxelType.Type.THATCH:
+			return VOXEL_THATCH
+		VoxelType.Type.BRICKS:
+			return VOXEL_BRICKS
+		VoxelType.Type.STONE_BRICKS:
+			return VOXEL_STONE_BRICKS
+		VoxelType.Type.GOLD_ORE:
+			return VOXEL_GOLD_ORE
+		VoxelType.Type.SILVER_ORE:
+			return VOXEL_SILVER_ORE
+		VoxelType.Type.SNOW:
+			return VOXEL_SNOW
+		VoxelType.Type.ICE:
+			return VOXEL_ICE
+		VoxelType.Type.GRAVEL:
+			return VOXEL_GRAVEL
 		_:
 			return VOXEL_AIR

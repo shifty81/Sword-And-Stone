@@ -62,11 +62,26 @@ Create `scenes/test/voxel_test.tscn` to test godot_voxel in isolation:
 For VoxelTerrain node:
 1. Create a `VoxelMesherBlocky` in the Mesher property
 2. Create a `VoxelBlockyLibrary`:
-   - Add voxel types (air, grass, stone, etc.)
+   - Add voxel types matching the constants in `voxel_terrain_generator.gd`:
+     - ID 0: Air (transparent)
+     - ID 1: Grass (green)
+     - ID 2: Dirt (brown)
+     - ID 3: Stone (gray)
+     - ID 4: Bedrock (dark gray)
+     - ID 5: Water (blue, transparent)
+     - ID 6: Sand (yellow)
+     - ID 7: Wood (brown)
+     - ID 8: Leaves (green, transparent)
+     - ID 9: Iron Ore (gray with orange spots)
+     - ID 10: Copper Ore (green-brown)
+     - ID 11: Tin Ore (light gray)
+     - ID 12: Coal (black)
+     - ID 13-23: Additional types (see VoxelType enum)
    - Define colors and properties for each type
-3. Create a `VoxelGeneratorNoise2D` or `VoxelGeneratorScript`:
-   - For simple testing, use Noise2D
-   - For custom generation (biomes, rivers, ores), use GeneratorScript
+   - Set collision and transparency flags appropriately
+3. Create a `VoxelGeneratorScript`:
+   - Assign the `voxel_terrain_generator.gd` script
+   - This will use custom biome/terrain/ore generation
 
 ### Step 3: Add VoxelViewer
 
