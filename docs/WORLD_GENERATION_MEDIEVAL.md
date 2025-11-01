@@ -4,6 +4,11 @@
 
 The enhanced world generation system creates diverse, biome-rich medieval worlds with procedural textures, ore veins, trees, and structure spawn points for medieval buildings.
 
+![World Generation Example](world_generation_map.png)
+*Example world map showing biomes, trees, and structure spawn points*
+
+![Legend](world_generation_legend.png)
+
 ## Features
 
 ### Biome System
