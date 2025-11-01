@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4n5xqp1v4rw8"]
+[gd_scene load_steps=8 format=3 uid="uid://b4n5xqp1v4rw8"]
 
 [ext_resource type="Script" path="res://scripts/world_generation/world_generator.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="2"]
@@ -12,6 +12,14 @@ height = 1.8
 sky_top_color = Color(0.385, 0.454, 0.55, 1)
 sky_horizon_color = Color(0.646, 0.656, 0.67, 1)
 ground_horizon_color = Color(0.646, 0.656, 0.67, 1)
+
+[sub_resource type="Sky" id="Sky_1"]
+sky_material = SubResource("ProceduralSkyMaterial_1")
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 2
+sky = SubResource("Sky_1")
+ambient_light_source = 3
 
 [node name="Main" type="Node3D"]
 
@@ -34,10 +42,6 @@ transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-
-[node name="Environment" type="Environment" parent="WorldEnvironment"]
-background_mode = 2
-sky_material = SubResource("ProceduralSkyMaterial_1")
-ambient_light_source = 3
+environment = SubResource("Environment_1")
 
 [node name="HUD" parent="." instance=ExtResource("3")]
