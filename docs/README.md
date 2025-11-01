@@ -19,9 +19,15 @@ This directory contains all project documentation.
 - **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Complete project completion summary
 
 ### Specific Systems
-- **[WORLD_GENERATION_FIX.md](WORLD_GENERATION_FIX.md)** - World generation system documentation
+- **[WORLD_GENERATION_FIX.md](WORLD_GENERATION_FIX.md)** - Original world generation system documentation
+- **[WORLD_GENERATION_MEDIEVAL.md](WORLD_GENERATION_MEDIEVAL.md)** - ⭐ **NEW** Enhanced world generation with biomes, ores, and medieval features
+- **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)** - ⭐ **NEW** Complete implementation summary of world gen rebuild
 - **[METADATA_IMPLEMENTATION.md](METADATA_IMPLEMENTATION.md)** - Metadata and resource implementation
 - **[BUGFIX_SUMMARY.md](BUGFIX_SUMMARY.md)** - Summary of bug fixes and improvements
+
+### Visual Assets
+- **[world_generation_map.png](world_generation_map.png)** - ⭐ **NEW** Biome distribution visualization
+- **[world_generation_legend.png](world_generation_legend.png)** - ⭐ **NEW** Map legend showing biomes and features
 
 ## Documentation Standards
 
