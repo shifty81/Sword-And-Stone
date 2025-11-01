@@ -1,0 +1,179 @@
+extends StaticBody3D
+class_name Chunk
+
+## Represents a chunk of voxels in the world
+## Uses mesh generation for efficient rendering
+
+var world_generator: WorldGenerator
+var chunk_position: Vector3i
+var chunk_size: int
+
+var voxels: Array = []
+var mesh_instance: MeshInstance3D
+var collision_shape: CollisionShape3D
+
+func initialize(generator: WorldGenerator, position: Vector3i, size: int):
+	world_generator = generator
+	chunk_position = position
+	chunk_size = size
+	
+	# Initialize 3D voxel array
+	voxels.resize(chunk_size)
+	for x in range(chunk_size):
+		voxels[x] = []
+		voxels[x].resize(chunk_size)
+		for y in range(chunk_size):
+			voxels[x][y] = []
+			voxels[x][y].resize(chunk_size)
+	
+	# Create mesh instance
+	mesh_instance = MeshInstance3D.new()
+	add_child(mesh_instance)
+	
+	# Create collision shape
+	collision_shape = CollisionShape3D.new()
+	add_child(collision_shape)
+	
+	# Set position
+	global_position = Vector3(
+		chunk_position.x * chunk_size,
+		chunk_position.y * chunk_size,
+		chunk_position.z * chunk_size
+	)
+
+func generate_voxels():
+	var world_pos = global_position
+	
+	for x in range(chunk_size):
+		for z in range(chunk_size):
+			for y in range(chunk_size):
+				var world_x = world_pos.x + x
+				var world_y = world_pos.y + y
+				var world_z = world_pos.z + z
+				
+				voxels[x][y][z] = world_generator.get_voxel_type(world_x, world_y, world_z)
+	
+	generate_mesh()
+
+func generate_mesh():
+	var surface_tool = SurfaceTool.new()
+	surface_tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	
+	for x in range(chunk_size):
+		for y in range(chunk_size):
+			for z in range(chunk_size):
+				var voxel = voxels[x][y][z]
+				
+				if voxel == VoxelType.Type.AIR:
+					continue
+				
+				# Check each face
+				if should_draw_face(x, y, z, 0, 1, 0):  # Top
+					add_face(surface_tool, x, y, z, 0, voxel)
+				if should_draw_face(x, y, z, 0, -1, 0):  # Bottom
+					add_face(surface_tool, x, y, z, 1, voxel)
+				if should_draw_face(x, y, z, -1, 0, 0):  # Left
+					add_face(surface_tool, x, y, z, 2, voxel)
+				if should_draw_face(x, y, z, 1, 0, 0):  # Right
+					add_face(surface_tool, x, y, z, 3, voxel)
+				if should_draw_face(x, y, z, 0, 0, 1):  # Front
+					add_face(surface_tool, x, y, z, 4, voxel)
+				if should_draw_face(x, y, z, 0, 0, -1):  # Back
+					add_face(surface_tool, x, y, z, 5, voxel)
+	
+	surface_tool.generate_normals()
+	var mesh = surface_tool.commit()
+	mesh_instance.mesh = mesh
+	
+	# Create collision shape from mesh
+	var shape = mesh.create_trimesh_shape()
+	collision_shape.shape = shape
+
+func should_draw_face(x: int, y: int, z: int, dx: int, dy: int, dz: int) -> bool:
+	var nx = x + dx
+	var ny = y + dy
+	var nz = z + dz
+	
+	# If neighbor is outside chunk, assume it should be drawn
+	if nx < 0 or nx >= chunk_size or ny < 0 or ny >= chunk_size or nz < 0 or nz >= chunk_size:
+		return true
+	
+	var neighbor = voxels[nx][ny][nz]
+	return not VoxelType.is_solid(neighbor) or VoxelType.is_transparent(neighbor)
+
+func add_face(surface_tool: SurfaceTool, x: int, y: int, z: int, face: int, voxel_type: VoxelType.Type):
+	var color = VoxelType.get_voxel_color(voxel_type)
+	var vertices = get_face_vertices(x, y, z, face)
+	
+	# Add vertices in correct winding order
+	surface_tool.set_color(color)
+	surface_tool.add_vertex(vertices[0])
+	surface_tool.add_vertex(vertices[1])
+	surface_tool.add_vertex(vertices[2])
+	
+	surface_tool.add_vertex(vertices[2])
+	surface_tool.add_vertex(vertices[3])
+	surface_tool.add_vertex(vertices[0])
+
+func get_face_vertices(x: int, y: int, z: int, face: int) -> Array:
+	var pos = Vector3(x, y, z)
+	var vertices = []
+	
+	match face:
+		0:  # Top
+			vertices = [
+				pos + Vector3(0, 1, 0),
+				pos + Vector3(0, 1, 1),
+				pos + Vector3(1, 1, 1),
+				pos + Vector3(1, 1, 0)
+			]
+		1:  # Bottom
+			vertices = [
+				pos + Vector3(0, 0, 0),
+				pos + Vector3(1, 0, 0),
+				pos + Vector3(1, 0, 1),
+				pos + Vector3(0, 0, 1)
+			]
+		2:  # Left
+			vertices = [
+				pos + Vector3(0, 0, 0),
+				pos + Vector3(0, 0, 1),
+				pos + Vector3(0, 1, 1),
+				pos + Vector3(0, 1, 0)
+			]
+		3:  # Right
+			vertices = [
+				pos + Vector3(1, 0, 0),
+				pos + Vector3(1, 1, 0),
+				pos + Vector3(1, 1, 1),
+				pos + Vector3(1, 0, 1)
+			]
+		4:  # Front
+			vertices = [
+				pos + Vector3(0, 0, 1),
+				pos + Vector3(1, 0, 1),
+				pos + Vector3(1, 1, 1),
+				pos + Vector3(0, 1, 1)
+			]
+		5:  # Back
+			vertices = [
+				pos + Vector3(0, 0, 0),
+				pos + Vector3(0, 1, 0),
+				pos + Vector3(1, 1, 0),
+				pos + Vector3(1, 0, 0)
+			]
+	
+	return vertices
+
+func get_voxel(x: int, y: int, z: int) -> VoxelType.Type:
+	if x < 0 or x >= chunk_size or y < 0 or y >= chunk_size or z < 0 or z >= chunk_size:
+		return VoxelType.Type.AIR
+	
+	return voxels[x][y][z]
+
+func set_voxel(x: int, y: int, z: int, type: VoxelType.Type):
+	if x < 0 or x >= chunk_size or y < 0 or y >= chunk_size or z < 0 or z >= chunk_size:
+		return
+	
+	voxels[x][y][z] = type
+	generate_mesh()

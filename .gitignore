@@ -1,0 +1,37 @@
+# Godot 4+ specific ignores
+.godot/
+*.import
+
+# Mono-specific ignores
+.mono/
+data_*/
+mono_crash.*.json
+
+# System/tool-specific ignores
+.DS_Store
+*~
+*.swp
+*.swo
+*.bak
+.directory
+
+# Build artifacts
+*.o
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dll
+*.dylib
+*.exe
+*.pdb
+
+# IDE-specific
+.vscode/
+.idea/
+*.sublime-*
+*.code-workspace
+
+# Temporary files
+*.tmp
+*.log
