@@ -4,6 +4,8 @@ class_name Chunk
 ## Represents a chunk of voxels in the world
 ## Uses mesh generation for efficient rendering
 
+const TREE_PLACEMENT_INTERVAL: int = 4  # Check every Nth block for performance
+
 var world_generator: WorldGenerator
 var chunk_position: Vector3i
 var chunk_size: int
@@ -68,8 +70,8 @@ func generate_voxels():
 
 func generate_trees():
 	# Only try to place trees in this chunk
-	for x in range(0, chunk_size, 4):  # Check every 4 blocks for performance
-		for z in range(0, chunk_size, 4):
+	for x in range(0, chunk_size, TREE_PLACEMENT_INTERVAL):
+		for z in range(0, chunk_size, TREE_PLACEMENT_INTERVAL):
 			var world_x = global_position.x + x
 			var world_z = global_position.z + z
 			

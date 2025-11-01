@@ -28,6 +28,31 @@ class_name WorldGenerator
 @export var river_width: float = 3.0
 @export var min_river_length: int = 20  # Minimum successful river length to keep
 
+@export_group("Ore Generation")
+@export var ore_coal_depth_min: float = -50
+@export var ore_coal_depth_max: float = 50
+@export var ore_coal_threshold: float = 0.85
+
+@export var ore_iron_depth_min: float = -100
+@export var ore_iron_depth_max: float = 0
+@export var ore_iron_threshold: float = 0.88
+
+@export var ore_copper_depth_min: float = -80
+@export var ore_copper_depth_max: float = 20
+@export var ore_copper_threshold: float = 0.87
+
+@export var ore_tin_depth_min: float = -60
+@export var ore_tin_depth_max: float = 40
+@export var ore_tin_threshold: float = 0.89
+
+@export var ore_gold_depth_min: float = -200
+@export var ore_gold_depth_max: float = -50
+@export var ore_gold_threshold: float = 0.92
+
+@export var ore_silver_depth_min: float = -150
+@export var ore_silver_depth_max: float = -30
+@export var ore_silver_threshold: float = 0.91
+
 var chunks: Dictionary = {}
 var continent_noise: FastNoiseLite
 var terrain_noise: FastNoiseLite
@@ -164,28 +189,28 @@ func get_ore_type(x: float, y: float, z: float) -> VoxelType.Type:
 	var ore_value = ore_noise.get_noise_3d(x, y, z)
 	
 	# Ores spawn at specific depth ranges
-	# Coal: Y -50 to 50
-	if y > -50 and y < 50 and ore_value > 0.85:
+	# Coal: configurable depth range
+	if y > ore_coal_depth_min and y < ore_coal_depth_max and ore_value > ore_coal_threshold:
 		return VoxelType.Type.COAL
 	
-	# Iron: Y -100 to 0
-	if y > -100 and y < 0 and ore_value > 0.88:
+	# Iron: configurable depth range
+	if y > ore_iron_depth_min and y < ore_iron_depth_max and ore_value > ore_iron_threshold:
 		return VoxelType.Type.IRON_ORE
 	
-	# Copper: Y -80 to 20
-	if y > -80 and y < 20 and ore_value > 0.87:
+	# Copper: configurable depth range
+	if y > ore_copper_depth_min and y < ore_copper_depth_max and ore_value > ore_copper_threshold:
 		return VoxelType.Type.COPPER_ORE
 	
-	# Tin: Y -60 to 40
-	if y > -60 and y < 40 and ore_value > 0.89:
+	# Tin: configurable depth range
+	if y > ore_tin_depth_min and y < ore_tin_depth_max and ore_value > ore_tin_threshold:
 		return VoxelType.Type.TIN_ORE
 	
-	# Gold: Y -200 to -50 (deep)
-	if y > -200 and y < -50 and ore_value > 0.92:
+	# Gold: configurable depth range (deep)
+	if y > ore_gold_depth_min and y < ore_gold_depth_max and ore_value > ore_gold_threshold:
 		return VoxelType.Type.GOLD_ORE
 	
-	# Silver: Y -150 to -30 (deep)
-	if y > -150 and y < -30 and ore_value > 0.91:
+	# Silver: configurable depth range (deep)
+	if y > ore_silver_depth_min and y < ore_silver_depth_max and ore_value > ore_silver_threshold:
 		return VoxelType.Type.SILVER_ORE
 	
 	return VoxelType.Type.STONE

@@ -709,7 +709,7 @@ static func generate_all_textures(base_path: String = "res://assets/textures/"):
 		if err == OK:
 			print("Generated texture: ", path)
 		else:
-			push_error("Failed to save texture: ", path)
+			push_error("Failed to save texture: " + path)
 	
 	# Generate item icons
 	var item_textures = {
@@ -732,6 +732,6 @@ static func generate_all_textures(base_path: String = "res://assets/textures/"):
 		if err == OK:
 			print("Generated item texture: ", path)
 		else:
-			push_error("Failed to save item texture: ", path)
+			push_error("Failed to save item texture: " + path)
 	
 	print("Texture generation complete!")

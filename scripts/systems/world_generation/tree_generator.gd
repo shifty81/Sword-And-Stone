@@ -3,6 +3,10 @@ class_name TreeGenerator
 
 ## Generates trees in the world for forest biomes
 
+const LEAF_CROWN_RADIUS: float = 2.5
+const MIN_TREE_HEIGHT: int = 5
+const TREE_HEIGHT_VARIANCE: int = 3
+
 var world_seed: int
 var tree_noise: FastNoiseLite
 
@@ -33,7 +37,7 @@ func should_spawn_tree(x: float, z: float, biome: BiomeGenerator.BiomeType) -> b
 ## Returns an array of voxel positions to set as wood/leaves
 func generate_tree_voxels(base_x: int, base_y: int, base_z: int) -> Array:
 	var voxels = []
-	var tree_height = 5 + (abs(base_x + base_z) % 3)  # 5-7 blocks tall
+	var tree_height = MIN_TREE_HEIGHT + (abs(base_x + base_z) % TREE_HEIGHT_VARIANCE)
 	
 	# Tree trunk
 	for y in range(tree_height):
@@ -51,7 +55,7 @@ func generate_tree_voxels(base_x: int, base_y: int, base_z: int) -> Array:
 			for dz in range(-2, 3):
 				# Create rough sphere shape
 				var dist = sqrt(dx * dx + dy * dy + dz * dz)
-				if dist <= 2.5 and not (dx == 0 and dy < 0 and dz == 0):
+				if dist <= LEAF_CROWN_RADIUS and not (dx == 0 and dy < 0 and dz == 0):
 					voxels.append({
 						"x": base_x + dx,
 						"y": crown_y + dy,
