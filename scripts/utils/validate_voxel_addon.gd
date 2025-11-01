@@ -80,8 +80,9 @@ func _ready():
 	print("\n===========================================\n")
 	
 	# Auto-quit after 5 seconds if running in headless mode
-	await get_tree().create_timer(5.0).timeout
-	get_tree().quit()
+	if DisplayServer.get_name() == "headless":
+		await get_tree().create_timer(5.0).timeout
+		get_tree().quit()
 
 func check_plugin_enabled() -> bool:
 	# Check if the plugin is listed in project settings
@@ -94,8 +95,13 @@ func check_plugin_enabled() -> bool:
 	return "res://addons/zylann.voxel/" in enabled_plugins
 
 func get_platform_name() -> String:
+	# Note: BSD variants may or may not be compatible with Linux binaries
+	# If you're on BSD, try using Linux binaries but they may not work
 	match OS.get_name():
-		"Linux", "FreeBSD", "NetBSD", "OpenBSD", "BSD":
+		"Linux":
+			return "linux"
+		"FreeBSD", "NetBSD", "OpenBSD", "BSD":
+			# BSD systems may work with Linux binaries (not guaranteed)
 			return "linux"
 		"Windows":
 			return "windows"

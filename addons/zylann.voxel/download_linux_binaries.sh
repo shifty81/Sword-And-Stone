@@ -33,13 +33,17 @@ mkdir -p "$TEMP_DIR"
 cd "$TEMP_DIR"
 
 echo "Fetching latest release information..."
+# Try multiple patterns to find Linux binaries
 RELEASE_URL=$(curl -s https://api.github.com/repos/Zylann/godot_voxel/releases | \
-    grep "browser_download_url.*godot.*linux.*x86_64.*zip" | \
+    grep "browser_download_url" | \
+    grep -E "(linux.*x86_64|x86_64.*linux)" | \
+    grep -E "\.zip|\.tar\.gz" | \
     head -n 1 | \
     cut -d '"' -f 4)
 
 if [ -z "$RELEASE_URL" ]; then
     echo "ERROR: Could not find Linux binaries in releases."
+    echo "Release naming may have changed or no Linux binaries available."
     echo "Please download manually from: https://github.com/Zylann/godot_voxel/releases"
     exit 1
 fi
@@ -54,7 +58,17 @@ unzip -q godot_voxel_linux.zip
 
 # Find and copy the .so files
 echo "Installing binaries..."
-find . -name "libvoxel.linux.*.so" -exec cp {} "$BIN_DIR/" \;
+FOUND_FILES=$(find . -name "libvoxel.linux.*.so" -type f)
+if [ -z "$FOUND_FILES" ]; then
+    echo "ERROR: No Linux .so files found in downloaded archive"
+    echo "Archive structure may have changed."
+    exit 1
+fi
+
+for file in $FOUND_FILES; do
+    echo "Installing: $(basename "$file")"
+    cp "$file" "$BIN_DIR/"
+done
 
 # Cleanup
 cd /

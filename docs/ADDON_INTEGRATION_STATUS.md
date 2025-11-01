@@ -1,6 +1,6 @@
 # Addon Integration Status Report
 
-**Date:** November 1, 2025  
+**Date:** November 1, 2024  
 **Addon:** Zylann.Voxel GDExtension  
 **Task:** Enable and test the populated addon folder
 
