@@ -11,6 +11,7 @@ This directory contains all project documentation.
 
 ### Project Organization
 - **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)** - Complete directory structure reference and file organization
+- **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** - Guide for the project restructure and path changes
 
 ### Technical Documentation
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture diagrams and flow charts
