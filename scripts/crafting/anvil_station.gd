@@ -15,7 +15,6 @@ signal smithing_quality_updated(quality: Item.Quality)
 signal voxel_shaped(position: Vector3i)
 
 func _ready():
-	super._ready()
 	station_type = StationType.ANVIL
 	initialize_smithing_canvas()
 
