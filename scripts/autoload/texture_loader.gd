@@ -20,7 +20,7 @@ func generate_textures():
 	DirAccess.make_dir_recursive_absolute("res://assets/textures/terrain/")
 	DirAccess.make_dir_recursive_absolute("res://assets/textures/items/")
 	
-	# Generate all textures
+	# Generate all textures using TextureGenerator (globally available via class_name)
 	TextureGenerator.generate_all_textures()
 	
 	print("Texture generation complete! Restart the game to load new textures.")

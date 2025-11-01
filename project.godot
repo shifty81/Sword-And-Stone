@@ -71,6 +71,10 @@ toggle_inventory={
 ]
 }
 
+[autoload]
+
+TextureLoader="*res://scripts/autoload/texture_loader.gd"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

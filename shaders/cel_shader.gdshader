@@ -26,7 +26,7 @@ void fragment() {
 	
 	// Cel-shading: quantize lighting into discrete levels
 	float cel_intensity = floor(max(NdotL, 0.0) * float(cel_levels)) / float(cel_levels);
-	cel_intensity = max(cel_intensity, 0.3); // Minimum ambient lighting
+	cel_intensity = max(cel_intensity, 0.5); // Minimum ambient lighting (increased for better visibility)
 	
 	// Rim lighting for Borderlands-style effect
 	vec3 view_dir = normalize(VIEW);
