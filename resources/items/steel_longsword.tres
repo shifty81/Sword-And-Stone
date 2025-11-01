@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bq3m7n8xr4k1w"]
+
+[ext_resource type="Script" path="res://resources/items/steel_longsword.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Steel Longsword"
+item_type = 2
+quality = 2
+description = "A masterfully crafted longsword made from high-grade steel. Excellent reach and damage."
+max_stack_size = 1
+durability = 400
+max_durability = 400
+weapon_type = 0
+base_damage = 25.0
+attack_speed = 0.9
+reach_distance = 3.0
