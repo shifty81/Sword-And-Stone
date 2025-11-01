@@ -3,6 +3,9 @@ extends Node
 ## Utility tool to generate textures at runtime or in editor
 ## Call this once to generate all procedural textures
 
+# Preload the texture generator to ensure it's available
+const TextureGeneratorClass = preload("res://scripts/utils/texture_generator.gd")
+
 func _ready():
 	# Check if textures need to be generated
 	if should_generate_textures():
@@ -20,7 +23,8 @@ func generate_textures():
 	DirAccess.make_dir_recursive_absolute("res://assets/textures/terrain/")
 	DirAccess.make_dir_recursive_absolute("res://assets/textures/items/")
 	
-	# Generate all textures
+	# Generate all textures using the class_name (which should be globally available)
+	# The preload above ensures the class is loaded
 	TextureGenerator.generate_all_textures()
 	
 	print("Texture generation complete! Restart the game to load new textures.")
