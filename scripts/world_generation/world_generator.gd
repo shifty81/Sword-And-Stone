@@ -14,7 +14,7 @@ class_name WorldGenerator
 @export_group("Continent Generation")
 @export var continent_scale: float = 0.005
 @export var continent_threshold: float = 0.3
-@export var sea_level: int = 0  # Center of world height (-512 to +512 range)
+@export var sea_level: int = 0  # Center of world height (-512 to +511 range, 1024 blocks total)
 
 @export_group("Terrain Features")
 @export var terrain_scale: float = 0.02
@@ -159,9 +159,11 @@ func _process(_delta):
 		for z in range(-render_distance, render_distance + 1):
 			for y in range(-vertical_render_distance, vertical_render_distance + 1):
 				var chunk_pos = player_chunk_pos + Vector3i(x, y, z)
-				# Clamp Y to valid world height range (-512 to +512 blocks)
-				var min_chunk_y = -32  # -512 blocks / 16
-				var max_chunk_y = 32   # +512 blocks / 16
+				# Clamp Y to valid world height range
+				# world_height_in_chunks = 64 means chunks from -32 to +31 (64 total)
+				# This gives us blocks from -512 to +511 (1024 total)
+				var min_chunk_y = -(world_height_in_chunks / 2)
+				var max_chunk_y = (world_height_in_chunks / 2) - 1
 				if chunk_pos.y >= min_chunk_y and chunk_pos.y <= max_chunk_y:
 					generate_chunk(chunk_pos)
 
