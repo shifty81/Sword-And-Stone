@@ -5,6 +5,9 @@ class_name Chunk
 ## Uses mesh generation for efficient rendering
 
 const TREE_PLACEMENT_INTERVAL: int = 4  # Check every Nth block for performance
+const DEBUG_CHUNK_Y: int = 2  # Y position of chunks to debug (at player start height)
+const DEBUG_RANGE_X: int = 1  # Range of X chunks to debug around origin
+const DEBUG_RANGE_Z: int = 1  # Range of Z chunks to debug around origin
 
 var world_generator: WorldGenerator
 var chunk_position: Vector3i
@@ -64,7 +67,7 @@ func generate_voxels():
 				voxels[x][y][z] = world_generator.get_voxel_type(world_x, world_y, world_z)
 				
 				# Track surface blocks for debugging
-				if chunk_position.y == 2:  # Chunk at Y=2 (32-47 blocks high) where player starts
+				if chunk_position.y == DEBUG_CHUNK_Y:  # Chunk at player start height (32-47 blocks high)
 					if y == chunk_size - 1:  # Top of this chunk
 						var voxel_type = voxels[x][y][z]
 						if not surface_block_counts.has(voxel_type):
@@ -72,11 +75,12 @@ func generate_voxels():
 						surface_block_counts[voxel_type] += 1
 	
 	# Log surface composition for chunks near player start
-	if chunk_position.y == 2 and (abs(chunk_position.x) <= 1 and abs(chunk_position.z) <= 1):
+	if chunk_position.y == DEBUG_CHUNK_Y and (abs(chunk_position.x) <= DEBUG_RANGE_X and abs(chunk_position.z) <= DEBUG_RANGE_Z):
 		print("Chunk [%d,%d,%d] surface blocks:" % [chunk_position.x, chunk_position.y, chunk_position.z])
 		for voxel_type in surface_block_counts:
 			var type_name = "UNKNOWN"
 			var type_keys = VoxelType.Type.keys()
+			# Use type_keys.size() which matches the enum size
 			if voxel_type >= 0 and voxel_type < type_keys.size():
 				type_name = type_keys[voxel_type]
 			print("  %s: %d" % [type_name, surface_block_counts[voxel_type]])
