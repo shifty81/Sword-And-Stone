@@ -27,7 +27,8 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 ### Graphics
 - **Borderlands-Style Cel Shading**: Custom shader with thick outlines
 - **Stylized Visuals**: Non-photorealistic rendering for a unique look
-- **Procedural Textures**: ⭐ **NEW** 28 procedurally generated 16×16 medieval textures (19 terrain + 9 items)
+- **Procedural Textures**: ⭐ **UPDATED** All 19 terrain textures now generated automatically on startup
+- **Vibrant Colors**: ⭐ **IMPROVED** Enhanced brightness for better visibility
 
 ## Getting Started
 
@@ -38,6 +39,11 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 1. Clone this repository
 2. Open the project in Godot 4.x
 3. Press F5 or click the Play button to run
+4. Textures will generate automatically on first run
+
+### Troubleshooting
+- **Grey grid on ground?** See [docs/TEXTURE_FIXES.md](docs/TEXTURE_FIXES.md) for solutions
+- **Want to explore other world gen systems?** See [docs/ASSETLIB_GUIDE.md](docs/ASSETLIB_GUIDE.md)
 
 ### Controls
 - **W/A/S/D**: Move
