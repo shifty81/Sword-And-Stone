@@ -12,12 +12,12 @@ class_name PlayerController
 
 @export_group("Interaction")
 @export var reach: float = 5.0
-@export var interact_cooldown: float = 0.1  # Minimum time between interactions
+@export var interact_cooldown: float = 0.1  # Minimum time between interactions in seconds
 
 var gravity = 20.0
 var camera: Camera3D
 var camera_pivot: Node3D
-var last_interact_time: float = 0.0
+var last_interact_time: int = 0  # Time in milliseconds
 
 func _ready():
 	add_to_group("player")
@@ -84,9 +84,9 @@ func handle_interaction():
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 		return
 	
-	# Throttle interactions to prevent spam
-	var current_time = Time.get_ticks_msec() / 1000.0
-	if current_time - last_interact_time < interact_cooldown:
+	# Throttle interactions to prevent spam (using milliseconds for efficiency)
+	var current_time = Time.get_ticks_msec()
+	if current_time - last_interact_time < interact_cooldown * 1000.0:
 		return
 	
 	# Raycast for voxel interaction

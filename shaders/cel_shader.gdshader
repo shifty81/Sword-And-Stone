@@ -20,11 +20,6 @@ void fragment() {
 	// Use vertex color as base (ensure it's not lost)
 	vec3 base_color = vertex_color.rgb * albedo.rgb;
 	
-	// Ensure we have a minimum color to prevent pure black/grey
-	if (base_color.r < 0.01 && base_color.g < 0.01 && base_color.b < 0.01) {
-		base_color = vec3(0.5); // Fallback grey if color is missing
-	}
-	
 	// Calculate lighting from fixed directional light
 	vec3 light_dir = normalize(vec3(0.5, 1.0, 0.3));
 	float NdotL = dot(NORMAL, light_dir);

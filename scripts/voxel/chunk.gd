@@ -136,24 +136,16 @@ func add_face(surface_tool: SurfaceTool, x: int, y: int, z: int, face: int, voxe
 	var color = VoxelType.get_voxel_color(voxel_type)
 	var vertices = get_face_vertices(x, y, z, face)
 	
-	# Ensure color is valid (not black/grey by default)
-	if color.r == 0.0 and color.g == 0.0 and color.b == 0.0:
-		push_warning("Voxel type %d has black color, using fallback" % voxel_type)
-		color = Color(0.8, 0.8, 0.8)  # Fallback to light grey
-	
-	# Add vertices in correct winding order with color set for each
+	# Set color once for all vertices of this face (performance optimization)
 	surface_tool.set_color(color)
+	
+	# Add vertices in correct winding order
 	surface_tool.add_vertex(vertices[0])
-	surface_tool.set_color(color)
 	surface_tool.add_vertex(vertices[1])
-	surface_tool.set_color(color)
 	surface_tool.add_vertex(vertices[2])
 	
-	surface_tool.set_color(color)
 	surface_tool.add_vertex(vertices[2])
-	surface_tool.set_color(color)
 	surface_tool.add_vertex(vertices[3])
-	surface_tool.set_color(color)
 	surface_tool.add_vertex(vertices[0])
 
 func get_face_vertices(x: int, y: int, z: int, face: int) -> Array:
