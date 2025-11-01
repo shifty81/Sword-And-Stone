@@ -52,6 +52,7 @@ func initialize(generator: WorldGenerator, chunk_pos: Vector3i, size: int):
 
 func generate_voxels():
 	var world_pos = global_position
+	var surface_block_counts = {}
 	
 	for x in range(chunk_size):
 		for z in range(chunk_size):
@@ -61,6 +62,21 @@ func generate_voxels():
 				var world_z = world_pos.z + z
 				
 				voxels[x][y][z] = world_generator.get_voxel_type(world_x, world_y, world_z)
+				
+				# Track surface blocks for debugging
+				if chunk_position.y == 2:  # Chunk at Y=2 (32-47 blocks high) where player starts
+					if y == chunk_size - 1:  # Top of this chunk
+						var voxel_type = voxels[x][y][z]
+						if not surface_block_counts.has(voxel_type):
+							surface_block_counts[voxel_type] = 0
+						surface_block_counts[voxel_type] += 1
+	
+	# Log surface composition for chunks near player start
+	if chunk_position.y == 2 and (abs(chunk_position.x) <= 1 and abs(chunk_position.z) <= 1):
+		print("Chunk [%d,%d,%d] surface blocks:" % [chunk_position.x, chunk_position.y, chunk_position.z])
+		for voxel_type in surface_block_counts:
+			var type_name = VoxelType.Type.keys()[voxel_type] if voxel_type < VoxelType.Type.size() else "UNKNOWN"
+			print("  %s: %d" % [type_name, surface_block_counts[voxel_type]])
 	
 	# Generate trees on surface (only in chunks at or near surface level)
 	if chunk_position.y >= -2 and chunk_position.y <= 4:

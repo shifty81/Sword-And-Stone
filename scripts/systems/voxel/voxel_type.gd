@@ -45,54 +45,54 @@ static func is_transparent(type: Type) -> bool:
 static func get_voxel_color(type: Type) -> Color:
 	match type:
 		Type.GRASS:
-			return Color(0.3, 0.6, 0.2)
+			return Color(0.4, 0.8, 0.3)  # Brighter green
 		Type.DIRT:
-			return Color(0.5, 0.3, 0.1)
+			return Color(0.6, 0.4, 0.15)  # Brighter brown
 		Type.STONE:
-			return Color(0.5, 0.5, 0.5)
+			return Color(0.6, 0.6, 0.6)  # Lighter grey
 		Type.BEDROCK:
-			return Color(0.2, 0.2, 0.2)
+			return Color(0.25, 0.25, 0.25)  # Slightly lighter
 		Type.WATER:
-			return Color(0.2, 0.4, 0.8, 0.7)
+			return Color(0.3, 0.5, 0.9, 0.7)  # Brighter blue
 		Type.SAND:
-			return Color(0.8, 0.7, 0.4)
+			return Color(0.9, 0.8, 0.5)  # Brighter sand
 		Type.WOOD:
-			return Color(0.4, 0.25, 0.1)
+			return Color(0.5, 0.35, 0.15)  # Brighter wood
 		Type.LEAVES:
-			return Color(0.2, 0.5, 0.1, 0.8)
+			return Color(0.3, 0.7, 0.2, 0.8)  # Brighter leaves
 		Type.IRON_ORE:
-			return Color(0.6, 0.5, 0.5)
+			return Color(0.7, 0.6, 0.55)  # Slightly brighter
 		Type.COPPER_ORE:
-			return Color(0.7, 0.4, 0.2)
+			return Color(0.8, 0.5, 0.25)  # Brighter copper
 		Type.TIN_ORE:
-			return Color(0.6, 0.6, 0.6)
+			return Color(0.7, 0.7, 0.7)  # Lighter tin
 		Type.COAL:
-			return Color(0.1, 0.1, 0.1)
+			return Color(0.15, 0.15, 0.15)  # Slightly lighter coal
 		Type.CLAY:
-			return Color(0.6, 0.5, 0.4)
+			return Color(0.7, 0.6, 0.5)  # Brighter clay
 		# Medieval building materials
 		Type.COBBLESTONE:
-			return Color(0.4, 0.4, 0.45)
+			return Color(0.5, 0.5, 0.55)  # Lighter cobblestone
 		Type.WOOD_PLANKS:
-			return Color(0.5, 0.3, 0.15)
+			return Color(0.6, 0.4, 0.2)  # Brighter planks
 		Type.THATCH:
-			return Color(0.7, 0.6, 0.3)
+			return Color(0.8, 0.7, 0.4)  # Brighter thatch
 		Type.BRICKS:
-			return Color(0.6, 0.3, 0.2)
+			return Color(0.7, 0.4, 0.3)  # Brighter bricks
 		Type.STONE_BRICKS:
-			return Color(0.55, 0.55, 0.55)
+			return Color(0.65, 0.65, 0.65)  # Lighter stone bricks
 		# Additional ores
 		Type.GOLD_ORE:
-			return Color(0.8, 0.7, 0.2)
+			return Color(0.9, 0.8, 0.3)  # Brighter gold
 		Type.SILVER_ORE:
-			return Color(0.75, 0.75, 0.8)
+			return Color(0.85, 0.85, 0.9)  # Brighter silver
 		# Special blocks
 		Type.SNOW:
-			return Color(0.95, 0.95, 1.0)
+			return Color(0.98, 0.98, 1.0)  # Brighter snow
 		Type.ICE:
-			return Color(0.7, 0.85, 1.0, 0.8)
+			return Color(0.75, 0.9, 1.0, 0.8)  # Brighter ice
 		Type.GRAVEL:
-			return Color(0.45, 0.45, 0.5)
+			return Color(0.55, 0.55, 0.6)  # Lighter gravel
 		_:
 			return Color.MAGENTA
 
