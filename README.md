@@ -52,6 +52,7 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 ### Troubleshooting
 - **Grey grid on ground?** See [docs/TEXTURE_FIXES.md](docs/TEXTURE_FIXES.md) for solutions
 - **Want to explore other world gen systems?** See [docs/ASSETLIB_GUIDE.md](docs/ASSETLIB_GUIDE.md)
+- **Interested in godot_voxel integration?** See [docs/GODOT_VOXEL_INTEGRATION.md](docs/GODOT_VOXEL_INTEGRATION.md) for professional voxel engine option
 
 ### Controls
 - **W/A/S/D**: Move
@@ -113,6 +114,7 @@ See individual README.md files in each directory for more details.
 - [x] Smithing system framework
 - [x] Cel-shaded graphics
 - [x] Physics engine implementation
+- [ ] Optional godot_voxel integration (professional voxel engine)
 - [ ] Combat system
 - [ ] More weapon and armor types
 - [ ] Advanced AI and creatures
@@ -128,6 +130,8 @@ The world uses a multi-layered noise approach:
 
 ### Voxel System
 Chunks are 16x16x16 voxel segments that generate on-demand around the player. Each voxel type has properties like hardness, color, and transparency.
+
+**Optional Enhancement**: The project can integrate [Zylann's godot_voxel](https://github.com/Zylann/godot_voxel) for professional-grade performance with LOD, efficient streaming, and smooth terrain options. See [GODOT_VOXEL_INTEGRATION.md](docs/GODOT_VOXEL_INTEGRATION.md) for details.
 
 ### Physics System
 The game uses Godot's built-in physics engine with custom enhancements:
