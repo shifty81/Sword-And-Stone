@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://physics_demo"]
+
+[ext_resource type="Script" path="res://scripts/systems/physics/physics_item.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/systems/physics/physics_trigger.gd" id="2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_item"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_item"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trigger"]
+size = Vector3(10, 5, 10)
+
+[node name="PhysicsDemo" type="Node3D"]
+
+[node name="Description" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
+text = "Physics System Demo
+Items fall and can be picked up
+Wind zone pushes objects upward"
+font_size = 32
+
+[node name="PhysicsItem1" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 10, 0)
+script = ExtResource("1")
+item_name = "Test Item 1"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsItem1"]
+shape = SubResource("BoxShape3D_item")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PhysicsItem1"]
+mesh = SubResource("BoxMesh_item")
+
+[node name="PhysicsItem2" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 10, 0)
+script = ExtResource("1")
+item_name = "Test Item 2"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PhysicsItem2"]
+shape = SubResource("BoxShape3D_item")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PhysicsItem2"]
+mesh = SubResource("BoxMesh_item")
+
+[node name="WindZone" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("2")
+trigger_type = "Wind"
+trigger_strength = 15.0
+trigger_direction = Vector3(0, 1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WindZone"]
+shape = SubResource("BoxShape3D_trigger")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_trigger")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 20, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_item")
