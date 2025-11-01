@@ -31,12 +31,19 @@ class_name WorldGenerator
 var chunks: Dictionary = {}
 var continent_noise: FastNoiseLite
 var terrain_noise: FastNoiseLite
+var ore_noise: FastNoiseLite
 var rivers: Array[River] = []
 var player: CharacterBody3D
+var biome_generator: BiomeGenerator
+var structure_generator: StructureGenerator
+var tree_generator: TreeGenerator
 
 func _ready():
 	add_to_group("world_generator")
 	initialize_noise()
+	biome_generator = BiomeGenerator.new(world_seed)
+	structure_generator = StructureGenerator.new(world_seed)
+	tree_generator = TreeGenerator.new(world_seed)
 	generate_continents()
 	generate_rivers()
 
@@ -55,6 +62,13 @@ func initialize_noise():
 	terrain_noise.fractal_octaves = octaves
 	terrain_noise.fractal_lacunarity = lacunarity
 	terrain_noise.fractal_gain = persistence
+	
+	# Initialize ore distribution noise
+	ore_noise = FastNoiseLite.new()
+	ore_noise.seed = world_seed + 2
+	ore_noise.noise_type = FastNoiseLite.TYPE_CELLULAR
+	ore_noise.frequency = 0.05
+	ore_noise.cellular_return_type = FastNoiseLite.RETURN_CELL_VALUE
 
 func generate_continents():
 	print("Generating continents...")
@@ -111,15 +125,68 @@ func get_voxel_type(x: float, y: float, z: float) -> VoxelType.Type:
 	if y > terrain_height:
 		return VoxelType.Type.WATER if y <= sea_level else VoxelType.Type.AIR
 	
-	if y > terrain_height - 1:
-		return VoxelType.Type.SAND if terrain_height < sea_level else VoxelType.Type.GRASS
+	# Get biome for this location
+	var biome = biome_generator.get_biome(x, z, terrain_height, sea_level)
 	
+	# Surface layer - biome dependent
+	if y > terrain_height - 1:
+		match biome:
+			BiomeGenerator.BiomeType.DESERT:
+				return VoxelType.Type.SAND
+			BiomeGenerator.BiomeType.TUNDRA:
+				return VoxelType.Type.SNOW
+			BiomeGenerator.BiomeType.SWAMP:
+				return VoxelType.Type.CLAY if terrain_height < sea_level + 2 else VoxelType.Type.GRASS
+			BiomeGenerator.BiomeType.OCEAN:
+				return VoxelType.Type.SAND
+			_:
+				return VoxelType.Type.SAND if terrain_height < sea_level else VoxelType.Type.GRASS
+	
+	# Sub-surface layer
 	if y > terrain_height - 4:
+		if biome == BiomeGenerator.BiomeType.DESERT:
+			return VoxelType.Type.SAND
 		return VoxelType.Type.DIRT
 	
 	# Bedrock layer at bottom of world (-512 to -500)
 	if y < -500:
 		return VoxelType.Type.BEDROCK
+	
+	# Underground - check for ores
+	var ore_type = get_ore_type(x, y, z)
+	if ore_type != VoxelType.Type.STONE:
+		return ore_type
+	
+	return VoxelType.Type.STONE
+
+## Determine if this position contains ore and which type
+func get_ore_type(x: float, y: float, z: float) -> VoxelType.Type:
+	var ore_value = ore_noise.get_noise_3d(x, y, z)
+	
+	# Ores spawn at specific depth ranges
+	# Coal: Y -50 to 50
+	if y > -50 and y < 50 and ore_value > 0.85:
+		return VoxelType.Type.COAL
+	
+	# Iron: Y -100 to 0
+	if y > -100 and y < 0 and ore_value > 0.88:
+		return VoxelType.Type.IRON_ORE
+	
+	# Copper: Y -80 to 20
+	if y > -80 and y < 20 and ore_value > 0.87:
+		return VoxelType.Type.COPPER_ORE
+	
+	# Tin: Y -60 to 40
+	if y > -60 and y < 40 and ore_value > 0.89:
+		return VoxelType.Type.TIN_ORE
+	
+	# Gold: Y -200 to -50 (deep)
+	if y > -200 and y < -50 and ore_value > 0.92:
+		return VoxelType.Type.GOLD_ORE
+	
+	# Silver: Y -150 to -30 (deep)
+	if y > -150 and y < -30 and ore_value > 0.91:
+		return VoxelType.Type.SILVER_ORE
 	
 	return VoxelType.Type.STONE
 
