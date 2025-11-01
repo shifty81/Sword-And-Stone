@@ -32,21 +32,33 @@ offset_right = 800.0
 offset_bottom = 150.0
 text = "GODOT VOXEL TEST SCENE
 
-This scene requires godot_voxel GDExtension to be installed.
+✅ The addon is ENABLED and ready!
 
-INSTALLATION:
-1. Upgrade to Godot 4.4.1+ or 4.5+
-2. Download GDExtension from: https://github.com/Zylann/godot_voxel/releases
-3. Extract to project root
-4. Enable plugin in Project Settings
+CURRENT STATUS:
+✓ Zylann.Voxel addon folder populated
+✓ Plugin enabled in project.godot
+✓ VoxelTerrainGenerator script available
+⚠  Platform binaries may need to be added (see below)
 
-SETUP FOR THIS SCENE:
+REQUIREMENTS:
+- Godot 4.4.1+ or 4.5+
+- Platform-specific binaries (macOS ✓, Linux/Windows ⚠)
+
+QUICK VALIDATION:
+Run: scenes/test/validate_voxel_addon.tscn
+This will check if everything is properly configured
+
+PLATFORM BINARIES:
+For Linux/Windows: See addons/zylann.voxel/PLATFORM_BINARIES.md
+Quick setup on Linux: Run addons/zylann.voxel/download_linux_binaries.sh
+
+SETUP TO USE THIS SCENE:
 1. Add VoxelTerrain node as child of this scene
 2. Set VoxelTerrain.generator to VoxelTerrainGenerator script
-3. Create VoxelBlockyLibrary with block types
+3. Create VoxelBlockyLibrary with block types (see docs/QUICKSTART_GODOT_VOXEL.md)
 4. Set VoxelTerrain.mesher to VoxelMesherBlocky with library
 5. Add VoxelViewer as child of Camera3D
 
-See docs/GODOT_VOXEL_INTEGRATION.md for details."
+For detailed instructions: docs/GODOT_VOXEL_INTEGRATION.md"
 
 [editable path="Camera3D"]
