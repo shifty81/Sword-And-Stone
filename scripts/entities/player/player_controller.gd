@@ -22,6 +22,14 @@ var last_interact_time: int = 0  # Last interaction timestamp from Time.get_tick
 func _ready():
 	add_to_group("player")
 	
+	# Set physics layer
+	if PhysicsManager:
+		PhysicsManager.set_collision_layer_and_mask(
+			self, 
+			PhysicsManager.LAYER_PLAYER, 
+			PhysicsManager.get_layer_mask(PhysicsManager.LAYER_WORLD) | PhysicsManager.get_layer_mask(PhysicsManager.LAYER_ITEMS)
+		)
+	
 	# Create camera pivot for look rotation
 	camera_pivot = Node3D.new()
 	camera_pivot.name = "CameraPivot"

@@ -74,6 +74,23 @@ toggle_inventory={
 [autoload]
 
 TextureLoader="*res://scripts/autoload/texture_loader.gd"
+PhysicsManager="*res://scripts/autoload/physics_manager.gd"
+
+[layer_names]
+
+3d_physics/layer_1="World"
+3d_physics/layer_2="Player"
+3d_physics/layer_3="Items"
+3d_physics/layer_4="Projectiles"
+3d_physics/layer_5="Enemies"
+3d_physics/layer_6="Triggers"
+3d_physics/layer_7="Interactables"
+
+[physics]
+
+3d/default_gravity=20.0
+3d/default_linear_damp=0.1
+3d/default_angular_damp=0.1
 
 [rendering]
 

@@ -24,6 +24,14 @@ func initialize(generator: WorldGenerator, chunk_pos: Vector3i, size: int):
 	chunk_position = chunk_pos
 	chunk_size = size
 	
+	# Set physics layer for chunks (world geometry)
+	if PhysicsManager:
+		PhysicsManager.set_collision_layer_and_mask(
+			self,
+			PhysicsManager.LAYER_WORLD,
+			0  # Chunks don't need to detect collisions, only be collided with
+		)
+	
 	# Initialize 3D voxel array
 	voxels.resize(chunk_size)
 	for x in range(chunk_size):

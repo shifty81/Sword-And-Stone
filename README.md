@@ -13,6 +13,14 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 - **Medieval Structures**: Spawn points for villages, watchtowers, forges, castles, and more
 - **Voxel-Based World**: Fully destructible and buildable terrain with 24 block types
 
+### Physics Engine ⭐ **NEW**
+- **Comprehensive Physics System**: Built on Godot's physics engine with custom enhancements
+- **Physics Materials**: 6 material types (stone, grass, ice, metal, wood, rubber) with unique properties
+- **Dynamic Objects**: Physics-based items, projectiles, and falling blocks
+- **Collision Layers**: 7 layers for precise collision filtering
+- **Environmental Triggers**: Wind zones, damage areas, bounce pads, and more
+- **Physics Debugging**: Visual debugging tools for development
+
 ### Player Mechanics
 - **First-Person Exploration**: WASD movement with mouse look
 - **Voxel Interaction**: Break and place blocks in the world
@@ -77,13 +85,14 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 │   ├── entities/          # Player, NPCs, enemies
 │   └── world/             # World-related scenes
 ├── scripts/                # GDScript files
-│   ├── autoload/          # Singleton scripts (GameManager)
+│   ├── autoload/          # Singleton scripts (GameManager, PhysicsManager)
 │   ├── components/        # Reusable components
 │   ├── entities/          # Entity scripts
 │   │   └── player/       # Player controller
 │   ├── systems/           # Core game systems
 │   │   ├── crafting/     # Crafting stations
 │   │   ├── inventory/    # Items and inventory
+│   │   ├── physics/      # Physics system (items, projectiles, triggers)
 │   │   ├── voxel/        # Voxel and chunks
 │   │   └── world_generation/  # World generator
 │   ├── ui/               # UI scripts
@@ -103,6 +112,7 @@ See individual README.md files in each directory for more details.
 - [x] Quality-based item system
 - [x] Smithing system framework
 - [x] Cel-shaded graphics
+- [x] Physics engine implementation
 - [ ] Combat system
 - [ ] More weapon and armor types
 - [ ] Advanced AI and creatures
@@ -118,6 +128,15 @@ The world uses a multi-layered noise approach:
 
 ### Voxel System
 Chunks are 16x16x16 voxel segments that generate on-demand around the player. Each voxel type has properties like hardness, color, and transparency.
+
+### Physics System
+The game uses Godot's built-in physics engine with custom enhancements:
+- **PhysicsManager** singleton manages all physics objects and materials
+- **7 collision layers** for precise object interaction filtering
+- **6 physics materials** with unique friction and bounce properties
+- **Dynamic objects** include items, projectiles, and falling blocks
+- **Environmental triggers** for gameplay mechanics (wind, damage zones, etc.)
+- See [docs/PHYSICS_SYSTEM.md](docs/PHYSICS_SYSTEM.md) for detailed documentation
 
 ### Smithing System
 The anvil station allows voxel-based smithing where players literally shape hot metal by hammering voxels into place. The quality of the final item depends on how accurately the shape matches the intended design.

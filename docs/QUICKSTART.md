@@ -104,9 +104,20 @@
 
 ### For Developers
 - See `DEVELOPMENT.md` for technical details
+- Read `docs/PHYSICS_SYSTEM.md` to learn about the physics engine
 - Modify `scripts/world_generation/world_generator.gd` to change terrain
 - Edit `scripts/voxel/voxel_type.gd` to add new block types
 - Create new items in `resources/items/`
+- Use `PhysicsManager` to create dynamic physics objects
+
+### Testing Physics System
+The game includes a physics test spawner. Press these keys in-game:
+- **1** - Spawn a pickupable physics item
+- **2** - Spawn a projectile
+- **3** - Spawn a falling block
+- **4** - Spawn a bouncy ball (demonstrates physics materials)
+- **5** - Toggle physics debug visualization
+- **Backspace** - Clean up all spawned physics objects
 
 ## Performance Tips
 
