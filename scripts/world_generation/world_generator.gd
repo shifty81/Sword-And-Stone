@@ -162,8 +162,8 @@ func _process(_delta):
 				# Clamp Y to valid world height range
 				# world_height_in_chunks = 64 means chunks from -32 to +31 (64 total)
 				# This gives us blocks from -512 to +511 (1024 total)
-				var min_chunk_y = -(world_height_in_chunks / 2)
-				var max_chunk_y = (world_height_in_chunks / 2) - 1
+				var min_chunk_y = -(world_height_in_chunks // 2)
+				var max_chunk_y = (world_height_in_chunks // 2) - 1
 				if chunk_pos.y >= min_chunk_y and chunk_pos.y <= max_chunk_y:
 					generate_chunk(chunk_pos)
 
