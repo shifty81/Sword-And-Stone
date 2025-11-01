@@ -30,7 +30,7 @@ chunk_size = 16
 render_distance = 6
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 80, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40, 0)
 script = ExtResource("2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]

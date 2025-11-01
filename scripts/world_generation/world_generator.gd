@@ -7,13 +7,14 @@ class_name WorldGenerator
 @export_group("World Settings")
 @export var world_seed: int = 12345
 @export var chunk_size: int = 16
-@export var world_height_in_chunks: int = 16
+@export var world_height_in_chunks: int = 64  # 64 chunks * 16 blocks = 1024 blocks total height
 @export var render_distance: int = 8
+@export var vertical_render_distance: int = 8  # How many chunks to generate above/below player
 
 @export_group("Continent Generation")
 @export var continent_scale: float = 0.005
 @export var continent_threshold: float = 0.3
-@export var sea_level: int = 64
+@export var sea_level: int = 0  # Center of world height (-512 to +511 range, 1024 blocks total)
 
 @export_group("Terrain Features")
 @export var terrain_scale: float = 0.02
@@ -116,10 +117,11 @@ func get_voxel_type(x: float, y: float, z: float) -> VoxelType.Type:
 	if y > terrain_height - 4:
 		return VoxelType.Type.DIRT
 	
-	if y > 10:
-		return VoxelType.Type.STONE
+	# Bedrock layer at bottom of world (-512 to -500)
+	if y < -500:
+		return VoxelType.Type.BEDROCK
 	
-	return VoxelType.Type.BEDROCK
+	return VoxelType.Type.STONE
 
 func get_chunk(chunk_position: Vector3i) -> Chunk:
 	if chunks.has(chunk_position):
@@ -148,15 +150,22 @@ func _process(_delta):
 	var player_pos = player.global_position
 	var player_chunk_pos = Vector3i(
 		floor(player_pos.x / chunk_size),
-		0,
+		floor(player_pos.y / chunk_size),
 		floor(player_pos.z / chunk_size)
 	)
 	
-	# Generate chunks in render distance
+	# Generate chunks in render distance (horizontal and vertical)
 	for x in range(-render_distance, render_distance + 1):
 		for z in range(-render_distance, render_distance + 1):
-			var chunk_pos = player_chunk_pos + Vector3i(x, 0, z)
-			generate_chunk(chunk_pos)
+			for y in range(-vertical_render_distance, vertical_render_distance + 1):
+				var chunk_pos = player_chunk_pos + Vector3i(x, y, z)
+				# Clamp Y to valid world height range
+				# world_height_in_chunks = 64 means chunks from -32 to +31 (64 total)
+				# This gives us blocks from -512 to +511 (1024 total)
+				var min_chunk_y = -(world_height_in_chunks / 2)
+				var max_chunk_y = (world_height_in_chunks / 2) - 1
+				if chunk_pos.y >= min_chunk_y and chunk_pos.y <= max_chunk_y:
+					generate_chunk(chunk_pos)
 
 ## River class for generating flowing water features
 class River:
