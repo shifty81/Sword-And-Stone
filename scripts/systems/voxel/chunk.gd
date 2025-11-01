@@ -4,6 +4,8 @@ class_name Chunk
 ## Represents a chunk of voxels in the world
 ## Uses mesh generation for efficient rendering
 
+const TREE_PLACEMENT_INTERVAL: int = 4  # Check every Nth block for performance
+
 var world_generator: WorldGenerator
 var chunk_position: Vector3i
 var chunk_size: int
@@ -60,7 +62,52 @@ func generate_voxels():
 				
 				voxels[x][y][z] = world_generator.get_voxel_type(world_x, world_y, world_z)
 	
+	# Generate trees on surface (only in chunks at or near surface level)
+	if chunk_position.y >= -2 and chunk_position.y <= 4:
+		generate_trees()
+	
 	generate_mesh()
+
+func generate_trees():
+	# Only try to place trees in this chunk
+	for x in range(0, chunk_size, TREE_PLACEMENT_INTERVAL):
+		for z in range(0, chunk_size, TREE_PLACEMENT_INTERVAL):
+			var world_x = global_position.x + x
+			var world_z = global_position.z + z
+			
+			# Find surface height
+			var surface_y = find_surface_y(x, z)
+			if surface_y == -1:
+				continue
+			
+			var world_y = global_position.y + surface_y
+			var terrain_height = world_generator.get_terrain_height(world_x, world_z)
+			var biome = world_generator.biome_generator.get_biome(world_x, world_z, terrain_height, world_generator.sea_level)
+			
+			# Check if tree should spawn
+			if world_generator.tree_generator.should_spawn_tree(world_x, world_z, biome):
+				# Generate tree voxels
+				var tree_voxels = world_generator.tree_generator.generate_tree_voxels(
+					int(world_x), int(world_y + 1), int(world_z)
+				)
+				
+				# Place tree voxels in this chunk (if they fit)
+				for voxel_data in tree_voxels:
+					var local_x = voxel_data["x"] - int(global_position.x)
+					var local_y = voxel_data["y"] - int(global_position.y)
+					var local_z = voxel_data["z"] - int(global_position.z)
+					
+					if local_x >= 0 and local_x < chunk_size and \
+					   local_y >= 0 and local_y < chunk_size and \
+					   local_z >= 0 and local_z < chunk_size:
+						voxels[local_x][local_y][local_z] = voxel_data["type"]
+
+func find_surface_y(x: int, z: int) -> int:
+	# Find the topmost solid voxel in this column
+	for y in range(chunk_size - 1, -1, -1):
+		if voxels[x][y][z] != VoxelType.Type.AIR and voxels[x][y][z] != VoxelType.Type.WATER:
+			return y
+	return -1
 
 func generate_mesh():
 	var surface_tool = SurfaceTool.new()

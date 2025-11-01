@@ -4,11 +4,14 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 
 ## Features
 
-### World Generation
+### World Generation ⭐ **ENHANCED**
 - **Procedural Continents**: Large-scale landmasses generated using Perlin noise
+- **6 Diverse Biomes**: Plains, forests, mountains, deserts, tundra, and swamps with temperature/moisture-based generation
 - **Dynamic Rivers**: Rivers flow from highlands to the ocean, carving through terrain
-- **Biomes**: Varied terrain with grass, dirt, stone, sand, and more
-- **Voxel-Based World**: Fully destructible and buildable terrain
+- **Ore Veins**: 6 ore types (coal, iron, copper, tin, gold, silver) spawn at specific depths
+- **Procedural Trees**: Natural tree placement in forests (30% density) and plains (5% density)
+- **Medieval Structures**: Spawn points for villages, watchtowers, forges, castles, and more
+- **Voxel-Based World**: Fully destructible and buildable terrain with 24 block types
 
 ### Player Mechanics
 - **First-Person Exploration**: WASD movement with mouse look
@@ -24,6 +27,7 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 ### Graphics
 - **Borderlands-Style Cel Shading**: Custom shader with thick outlines
 - **Stylized Visuals**: Non-photorealistic rendering for a unique look
+- **Procedural Textures**: ⭐ **NEW** 28 procedurally generated 16×16 medieval textures (19 terrain + 9 items)
 
 ## Getting Started
 

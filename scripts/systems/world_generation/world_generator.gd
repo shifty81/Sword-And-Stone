@@ -28,15 +28,47 @@ class_name WorldGenerator
 @export var river_width: float = 3.0
 @export var min_river_length: int = 20  # Minimum successful river length to keep
 
+@export_group("Ore Generation")
+@export var ore_coal_depth_min: float = -50
+@export var ore_coal_depth_max: float = 50
+@export var ore_coal_threshold: float = 0.85
+
+@export var ore_iron_depth_min: float = -100
+@export var ore_iron_depth_max: float = 0
+@export var ore_iron_threshold: float = 0.88
+
+@export var ore_copper_depth_min: float = -80
+@export var ore_copper_depth_max: float = 20
+@export var ore_copper_threshold: float = 0.87
+
+@export var ore_tin_depth_min: float = -60
+@export var ore_tin_depth_max: float = 40
+@export var ore_tin_threshold: float = 0.89
+
+@export var ore_gold_depth_min: float = -200
+@export var ore_gold_depth_max: float = -50
+@export var ore_gold_threshold: float = 0.92
+
+@export var ore_silver_depth_min: float = -150
+@export var ore_silver_depth_max: float = -30
+@export var ore_silver_threshold: float = 0.91
+
 var chunks: Dictionary = {}
 var continent_noise: FastNoiseLite
 var terrain_noise: FastNoiseLite
+var ore_noise: FastNoiseLite
 var rivers: Array[River] = []
 var player: CharacterBody3D
+var biome_generator: BiomeGenerator
+var structure_generator: StructureGenerator
+var tree_generator: TreeGenerator
 
 func _ready():
 	add_to_group("world_generator")
 	initialize_noise()
+	biome_generator = BiomeGenerator.new(world_seed)
+	structure_generator = StructureGenerator.new(world_seed)
+	tree_generator = TreeGenerator.new(world_seed)
 	generate_continents()
 	generate_rivers()
 
@@ -55,6 +87,13 @@ func initialize_noise():
 	terrain_noise.fractal_octaves = octaves
 	terrain_noise.fractal_lacunarity = lacunarity
 	terrain_noise.fractal_gain = persistence
+	
+	# Initialize ore distribution noise
+	ore_noise = FastNoiseLite.new()
+	ore_noise.seed = world_seed + 2
+	ore_noise.noise_type = FastNoiseLite.TYPE_CELLULAR
+	ore_noise.frequency = 0.05
+	ore_noise.cellular_return_type = FastNoiseLite.RETURN_CELL_VALUE
 
 func generate_continents():
 	print("Generating continents...")
@@ -111,15 +150,68 @@ func get_voxel_type(x: float, y: float, z: float) -> VoxelType.Type:
 	if y > terrain_height:
 		return VoxelType.Type.WATER if y <= sea_level else VoxelType.Type.AIR
 	
-	if y > terrain_height - 1:
-		return VoxelType.Type.SAND if terrain_height < sea_level else VoxelType.Type.GRASS
+	# Get biome for this location
+	var biome = biome_generator.get_biome(x, z, terrain_height, sea_level)
 	
+	# Surface layer - biome dependent
+	if y > terrain_height - 1:
+		match biome:
+			BiomeGenerator.BiomeType.DESERT:
+				return VoxelType.Type.SAND
+			BiomeGenerator.BiomeType.TUNDRA:
+				return VoxelType.Type.SNOW
+			BiomeGenerator.BiomeType.SWAMP:
+				return VoxelType.Type.CLAY if terrain_height < sea_level + 2 else VoxelType.Type.GRASS
+			BiomeGenerator.BiomeType.OCEAN:
+				return VoxelType.Type.SAND
+			_:
+				return VoxelType.Type.SAND if terrain_height < sea_level else VoxelType.Type.GRASS
+	
+	# Sub-surface layer
 	if y > terrain_height - 4:
+		if biome == BiomeGenerator.BiomeType.DESERT:
+			return VoxelType.Type.SAND
 		return VoxelType.Type.DIRT
 	
 	# Bedrock layer at bottom of world (-512 to -500)
 	if y < -500:
 		return VoxelType.Type.BEDROCK
+	
+	# Underground - check for ores
+	var ore_type = get_ore_type(x, y, z)
+	if ore_type != VoxelType.Type.STONE:
+		return ore_type
+	
+	return VoxelType.Type.STONE
+
+## Determine if this position contains ore and which type
+func get_ore_type(x: float, y: float, z: float) -> VoxelType.Type:
+	var ore_value = ore_noise.get_noise_3d(x, y, z)
+	
+	# Ores spawn at specific depth ranges
+	# Coal: configurable depth range
+	if y > ore_coal_depth_min and y < ore_coal_depth_max and ore_value > ore_coal_threshold:
+		return VoxelType.Type.COAL
+	
+	# Iron: configurable depth range
+	if y > ore_iron_depth_min and y < ore_iron_depth_max and ore_value > ore_iron_threshold:
+		return VoxelType.Type.IRON_ORE
+	
+	# Copper: configurable depth range
+	if y > ore_copper_depth_min and y < ore_copper_depth_max and ore_value > ore_copper_threshold:
+		return VoxelType.Type.COPPER_ORE
+	
+	# Tin: configurable depth range
+	if y > ore_tin_depth_min and y < ore_tin_depth_max and ore_value > ore_tin_threshold:
+		return VoxelType.Type.TIN_ORE
+	
+	# Gold: configurable depth range (deep)
+	if y > ore_gold_depth_min and y < ore_gold_depth_max and ore_value > ore_gold_threshold:
+		return VoxelType.Type.GOLD_ORE
+	
+	# Silver: configurable depth range (deep)
+	if y > ore_silver_depth_min and y < ore_silver_depth_max and ore_value > ore_silver_threshold:
+		return VoxelType.Type.SILVER_ORE
 	
 	return VoxelType.Type.STONE
 
