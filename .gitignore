@@ -26,6 +26,16 @@ mono_crash.*.json
 *.exe
 *.pdb
 
+# CMake build directories (this project doesn't use CMake)
+build/
+Build/
+BUILD/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
 # IDE-specific
 .vscode/
 .idea/
