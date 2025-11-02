@@ -53,11 +53,9 @@ If you want to use the optional high-performance voxel addon:
 
 **Windows Users:**
 ```powershell
-cd addons/zylann.voxel
-./download_windows_binaries.ps1
+cd addons\zylann.voxel
+.\download_windows_binaries.ps1
 ```
-
-**Note:** Forward slashes work in PowerShell too!
 
 See [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md) for detailed instructions.
 
