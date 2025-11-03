@@ -1,4 +1,4 @@
-# Godot 4+ specific ignores
+# Godot 4+ specific ignores (legacy - keeping for reference during migration)
 .godot/
 *.import
 
@@ -6,6 +6,57 @@
 .mono/
 data_*/
 mono_crash.*.json
+
+# C++ Build artifacts
+build/
+Build/
+BUILD/
+bin/
+lib/
+out/
+*.obj
+*.o
+*.exe
+*.dll
+*.lib
+*.a
+*.so
+*.dylib
+*.pdb
+*.ilk
+*.exp
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.opendb
+*.vcxproj.filters
+x64/
+x86/
+Debug/
+Release/
+RelWithDebInfo/
+MinSizeRel/
+
+# CMake
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# IDE-specific
+.vscode/
+.idea/
+*.sublime-*
+*.code-workspace
 
 # System/tool-specific ignores
 .DS_Store
@@ -15,33 +66,15 @@ mono_crash.*.json
 *.bak
 .directory
 
-# Build artifacts
-*.o
-*.pyc
-*.pyo
-*.pyd
-*.so
-*.dll
-*.dylib
-*.exe
-*.pdb
-
-# CMake build directories (this project doesn't use CMake)
-build/
-Build/
-BUILD/
-cmake-build-*/
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-
-# IDE-specific
-.vscode/
-.idea/
-*.sublime-*
-*.code-workspace
-
 # Temporary files
 *.tmp
 *.log
+
+# Third-party (if not using submodules)
+third_party/*/
+!third_party/CMakeLists.txt
+!third_party/README.md
+
+# Generated documentation
+docs/api/
+doxygen_output/
