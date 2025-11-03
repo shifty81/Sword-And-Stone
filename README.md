@@ -40,14 +40,20 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 
 ## Getting Started
 
-### Requirements
-- Godot 4.2 or newer
+> **⚠️ Important**: This is a **Godot project**, not a C++/CMake project! It does NOT require compilation.  
+> If you see CMake errors, you're using the wrong tool. See [BUILD.md](BUILD.md) for detailed instructions.
 
-### Installation
-1. Clone this repository
-2. Open the project in Godot 4.x
-3. Press F5 or click the Play button to run
+### Requirements
+- **Godot 4.2 or newer** - Download from [godotengine.org](https://godotengine.org/download)
+- **No compilers needed** - Godot uses interpreted GDScript
+
+### Quick Start
+1. **Install Godot 4.2+** from [godotengine.org](https://godotengine.org/download)
+2. **Import Project**: Open Godot → Import → Select `project.godot` from this directory
+3. **Run**: Press **F5** or click the Play button ▶️
 4. Textures will generate automatically on first run
+
+📖 **Full build instructions**: See [BUILD.md](BUILD.md)
 
 ### Zylann.Voxel Addon (Optional Professional Upgrade)
 
