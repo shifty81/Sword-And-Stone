@@ -1,105 +1,219 @@
-# Build Instructions
+# Build Instructions - Native C++ Edition
 
-## Important: This is a Godot Project, Not a C++ Project
+**Sword And Stone** has been restructured as a native C++ Windows application with support for multiple rendering APIs (OpenGL, DirectX 11, DirectX 12).
 
-**Sword And Stone** is a Godot game project written in GDScript. It does **NOT** use CMake, Make, or any traditional C++ build system.
+## Prerequisites
 
-## ❌ Common Mistake
+### Required
+- **Visual Studio 2019 or newer** (with C++ development tools)
+- **CMake 3.15 or newer**
+- **Windows 10 SDK** (for DirectX support)
+- **Git** (for cloning submodules)
 
-If you're seeing errors like:
-```
-CMake Error: No CMAKE_CXX_COMPILER could be found
-```
+### Third-Party Dependencies
+The following libraries are required and should be placed in the `third_party/` directory:
+- **GLM** - Math library (header-only)
+- **GLFW** - Window and input management (for OpenGL)
+- **GLAD** - OpenGL loader
+- **STB** - Image loading (header-only)
 
-This means you're trying to build the project with CMake, which is incorrect for Godot projects.
+## Quick Start (Visual Studio)
 
-## ✅ How to Run This Project
+1. **Clone the repository with submodules:**
+   ```powershell
+   git clone --recursive https://github.com/shifty81/Sword-And-Stone.git
+   cd Sword-And-Stone
+   ```
 
-### Requirements
-- **Godot 4.2 or newer** (Download from https://godotengine.org/download)
-- No compilers, no build tools, no CMake needed!
+2. **Create build directory:**
+   ```powershell
+   mkdir build
+   cd build
+   ```
 
-### Steps
+3. **Generate Visual Studio solution:**
+   ```powershell
+   cmake .. -G "Visual Studio 16 2019" -A x64
+   ```
+   
+   Or for Visual Studio 2022:
+   ```powershell
+   cmake .. -G "Visual Studio 17 2022" -A x64
+   ```
 
-1. **Download/Install Godot Engine 4.2+**
-   - Visit https://godotengine.org/download
-   - Download the Standard version (not .NET/Mono)
-   - Extract and run the Godot executable
+4. **Build the project:**
+   ```powershell
+   cmake --build . --config Release
+   ```
 
-2. **Open the Project**
-   - Launch Godot
-   - Click "Import"
-   - Navigate to this project directory
-   - Select the `project.godot` file
-   - Click "Import & Edit"
+5. **Run the game:**
+   ```powershell
+   .\bin\Release\SwordAndStone.exe
+   ```
 
-3. **Run the Game**
-   - Press **F5** or click the **Play** button in the top-right
-   - The game will start immediately (no build step required!)
+## Build Options
 
-### Controls
-- **W/A/S/D**: Move
-- **Space**: Jump
-- **Shift**: Sprint
-- **Mouse**: Look around
-- **Left Click**: Break voxel
-- **Right Click**: Place voxel
-- **E**: Toggle inventory
-- **ESC**: Toggle mouse cursor
+You can customize the build with CMake options:
 
-## Optional: Zylann.Voxel Addon (Advanced)
-
-If you want to use the optional high-performance voxel addon:
-
-**Windows Users:**
 ```powershell
-cd addons\zylann.voxel
-.\download_windows_binaries.ps1
+# Disable DirectX 12 support
+cmake .. -DENABLE_DX12=OFF
+
+# Disable DirectX 11 support
+cmake .. -DENABLE_DX11=OFF
+
+# Disable OpenGL support
+cmake .. -DENABLE_OPENGL=OFF
+
+# Disable tests
+cmake .. -DBUILD_TESTS=OFF
+
+# Example: Build with only DirectX 11
+cmake .. -DENABLE_OPENGL=OFF -DENABLE_DX12=OFF
 ```
 
-See [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md) for detailed instructions.
+## Building from Visual Studio IDE
 
-## Development
+1. Open CMake project in Visual Studio:
+   - File → Open → CMake
+   - Select the root `CMakeLists.txt`
 
-### Editing Code
-- All game logic is in GDScript (`.gd` files)
-- Edit files in the `scripts/` directory
-- No compilation needed - changes apply immediately
+2. Configure build settings:
+   - CMake → CMake Settings
+   - Adjust configuration as needed
 
-### Adding Features
-- Create new `.gd` script files
-- Attach scripts to scenes in the Godot editor
-- Refer to [ARCHITECTURE.md](docs/ARCHITECTURE.md) for project structure
+3. Build:
+   - Build → Build All (Ctrl+Shift+B)
+
+4. Run:
+   - Select `SwordAndStone.exe` as startup item
+   - Debug → Start Debugging (F5)
+
+## Project Structure
+
+```
+├── src/
+│   ├── engine/          # Core engine systems
+│   ├── renderer/        # Rendering backends (OpenGL, DX11, DX12)
+│   ├── platform/        # Platform-specific code
+│   ├── game/            # Game logic and systems
+│   └── main.cpp         # Entry point
+├── include/             # Header files
+├── third_party/         # External dependencies
+├── assets/              # Game assets
+├── tests/               # Unit tests
+└── CMakeLists.txt       # Build configuration
+```
+
+## Rendering APIs
+
+The engine supports multiple rendering backends:
+
+### OpenGL 3.3+
+- Cross-platform compatible
+- Widely supported
+- Good for development and testing
+
+### DirectX 11
+- Windows-only
+- Excellent performance
+- Mature and stable API
+- Recommended for Windows releases
+
+### DirectX 12
+- Windows 10+ only
+- Low-level modern API
+- Best performance potential
+- More complex to use
+
+The engine automatically selects the best available API at runtime in this order:
+1. DirectX 12 (if available)
+2. DirectX 11 (if available)
+3. OpenGL (fallback)
+
+## Testing
+
+Run unit tests with:
+
+```powershell
+cd build
+ctest -C Release
+```
+
+Or run the test executable directly:
+
+```powershell
+.\bin\Release\SwordAndStone_Tests.exe
+```
 
 ## Troubleshooting
 
-### "No executable found"
-- Make sure you have Godot 4.2 or newer installed
-- This project requires Godot 4.x, not Godot 3.x
+### CMake can't find Visual Studio
+Ensure Visual Studio is properly installed with C++ tools:
+- Install "Desktop development with C++" workload
+- Restart your terminal/command prompt
 
-### "Parsing of config failed"
-- This error is fixed in the current version
-- Make sure you have the latest code from the repository
+### Missing DirectX SDK
+Windows 10 SDK includes DirectX. Install via Visual Studio Installer:
+- Individual Components → Windows 10 SDK (latest version)
 
-### Performance Issues
-- Reduce render distance in world generation settings
-- Consider using the Zylann.Voxel addon for better performance
+### GLFW/GLAD not found
+Make sure submodules are initialized:
+```powershell
+git submodule update --init --recursive
+```
 
-## For C++ Developers
+### Compilation errors in renderer code
+Ensure you have the correct Windows SDK:
+- Check `#include <d3d11.h>` and `#include <d3d12.h>` work
+- Update Windows 10 SDK if needed
 
-If you're familiar with C++ and CMake but new to Godot:
-- **Godot uses GDScript**, a Python-like language
-- **No compilation** - scripts are interpreted at runtime
-- **Hot reloading** - changes apply immediately
-- **Built-in editor** - use Godot's editor, not external IDEs
+## Development
 
-To learn more about Godot development:
-- Official docs: https://docs.godotengine.org/
-- GDScript basics: https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html
+### Adding New Features
+1. Create header files in `include/`
+2. Create implementation files in `src/`
+3. Update appropriate `CMakeLists.txt`
+4. Rebuild project
+
+### Code Style
+- Use modern C++17 features
+- Follow naming conventions in existing code
+- Document public APIs
+- Write unit tests for new systems
+
+### Debugging
+- Use Visual Studio debugger (F5)
+- Enable debug builds: `cmake --build . --config Debug`
+- Check logs in console output
+
+## Performance
+
+### Release Build
+Always use Release builds for performance testing:
+```powershell
+cmake --build . --config Release
+```
+
+### Profiling
+- Use Visual Studio Profiler (Alt+F2)
+- Monitor frame times and GPU usage
+- Optimize hot paths identified by profiler
+
+## Documentation
+
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) - System architecture (being updated)
+- [DEVELOPMENT.md](docs/DEVELOPMENT.md) - Development guide (being updated)
+- API documentation - Generated with Doxygen (coming soon)
+
+## Migration from Godot
+
+This project has been restructured from a Godot-based project to native C++. The original Godot project files (`project.godot`, `*.gd` scripts, `*.tscn` scenes) are being phased out but remain in the repository for reference during migration.
 
 ## Summary
 
-- ❌ Don't use: `cmake`, `make`, `gcc`, `cl.exe`, Visual Studio
-- ✅ Do use: Godot Engine Editor
-- ❌ Don't build: This project doesn't need building
-- ✅ Do open: Open `project.godot` in Godot Engine
+- ✅ **Build system:** CMake
+- ✅ **Compiler:** Visual Studio 2019+ (MSVC)
+- ✅ **Platform:** Windows 10+ (primary), cross-platform potential
+- ✅ **Graphics APIs:** OpenGL 3.3+, DirectX 11, DirectX 12
+- ✅ **Language:** C++17
