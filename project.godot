@@ -79,6 +79,7 @@ PhysicsManager="*res://scripts/autoload/physics_manager.gd"
 TimeManager="*res://scripts/autoload/time_manager.gd"
 InputHelper="*res://scripts/autoload/input_helper.gd"
 WorldStateManager="*res://scripts/autoload/world_state_manager.gd"
+TilesetGenerator="*res://scripts/autoload/tileset_generator.gd"
 
 [layer_names]
 
