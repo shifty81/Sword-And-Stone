@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dungeon_template"]
+
+[node name="DungeonTemplate" type="Node2D"]
+
+[node name="GroundLayer" type="Node2D" parent="."]
+
+[node name="GroundTile" type="ColorRect" parent="GroundLayer"]
+offset_left = -500.0
+offset_top = -500.0
+offset_right = 500.0
+offset_bottom = 500.0
+color = Color(0.2, 0.2, 0.3, 1)
+
+[node name="WallsLayer" type="Node2D" parent="."]
+
+[node name="PropsLayer" type="Node2D" parent="."]
+
+[node name="EnemySpawns" type="Node2D" parent="."]
+
+[node name="LootSpawns" type="Node2D" parent="."]
+
+[node name="EntranceExit" type="Area2D" parent="."]
+position = Vector2(0, -450)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceExit"]
+
+[node name="Marker" type="Marker2D" parent="EntranceExit"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = -200.0
+offset_top = -250.0
+offset_right = 200.0
+offset_bottom = -200.0
+text = "Dungeon Template
+Add walls, props, enemies, and loot here
+Save as a new scene for your dungeon"
+horizontal_alignment = 1
+vertical_alignment = 1
