@@ -41,11 +41,13 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 ## Getting Started
 
 > **⚠️ Important**: This is a **Godot project**, not a C++/CMake project! It does NOT require compilation.  
-> If you see CMake errors, you're using the wrong tool. See [BUILD.md](BUILD.md) for detailed instructions.
+> If you see references to C++ or CMake, those are **archived for reference** in `archived_cpp/`.  
+> See [BUILD.md](BUILD.md) for detailed instructions or [docs/CONVERSION.md](docs/CONVERSION.md) for the C++ → Godot conversion story.
 
 ### Requirements
 - **Godot 4.2 or newer** - Download from [godotengine.org](https://godotengine.org/download)
 - **No compilers needed** - Godot uses interpreted GDScript
+- **No build system** - Just open and run!
 
 ### Quick Start
 1. **Install Godot 4.2+** from [godotengine.org](https://godotengine.org/download)
