@@ -3,6 +3,9 @@ shader_type canvas_item;
 // 2D Cel-shading shader for Crimson Isles
 // Applies cartoon-style lighting and outlines to 2D sprites and tiles
 
+// Epsilon for floating-point comparison to avoid division by zero
+const float EPSILON = 0.001;
+
 uniform vec4 tint_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform int cel_levels : hint_range(2, 8) = 3;
 uniform float outline_thickness : hint_range(0.0, 5.0) = 1.0;
@@ -26,7 +29,7 @@ void fragment() {
 	float uv_length = length(uv_centered);
 	float light_intensity = 0.5; // Default to middle lighting
 	
-	if (uv_length > 0.001) {
+	if (uv_length > EPSILON) {
 		// Only calculate lighting if uv_centered is not near zero
 		light_intensity = dot(normalize(uv_centered), normalize(light_direction));
 		light_intensity = (light_intensity + 1.0) * 0.5; // Normalize to 0-1

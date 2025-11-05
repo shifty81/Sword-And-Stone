@@ -3,6 +3,11 @@ class_name TileTextureGenerator2D
 
 ## Generates procedural 2D tile textures for terrain
 ## Creates tileable textures optimized for top-down view
+##
+## Note: The magic numbers used in texture generation (e.g., 7, 11, 37, 23, etc.)
+## are intentionally varied to create unique procedural patterns for each terrain type.
+## These create pseudo-random variation without requiring random number generators.
+## Adjusting these values will change the visual appearance of the textures.
 
 const TILE_SIZE = 32  # 32x32 pixel tiles for better detail in 2D
 

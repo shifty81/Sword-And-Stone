@@ -12,6 +12,11 @@ const DEFAULT_TERRAIN_SCALE = 0.05
 const DEFAULT_MOISTURE_SCALE = 0.03
 const DEFAULT_TEMPERATURE_SCALE = 0.04
 
+# Noise seed offsets for different layers
+const MOISTURE_SEED_OFFSET = 1000
+const TEMPERATURE_SEED_OFFSET = 2000
+const ORE_SEED_OFFSET = 2
+
 @export_group("World Settings")
 @export var world_seed: int = DEFAULT_SEED
 @export var world_size_chunks: int = DEFAULT_WORLD_SIZE_CHUNKS  # 8x8 chunks
@@ -54,13 +59,13 @@ func initialize_noise():
 	
 	# Moisture noise for biome variation
 	moisture_noise = FastNoiseLite.new()
-	moisture_noise.seed = world_seed + 1000
+	moisture_noise.seed = world_seed + MOISTURE_SEED_OFFSET
 	moisture_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	moisture_noise.frequency = moisture_scale
 	
 	# Temperature noise for biome variation
 	temperature_noise = FastNoiseLite.new()
-	temperature_noise.seed = world_seed + 2000
+	temperature_noise.seed = world_seed + TEMPERATURE_SEED_OFFSET
 	temperature_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	temperature_noise.frequency = temperature_scale
 
