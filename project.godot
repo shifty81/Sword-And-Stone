@@ -10,9 +10,9 @@ config_version=5
 
 [application]
 
-config/name="Sword And Stone"
-config/description="A 3D voxel survival game inspired by Vintage Story with world generation, crafting, and medieval combat"
-run/main_scene="res://scenes/main/main.tscn"
+config/name="Crimson Isles"
+config/description="A top-down survival RPG set in the mysterious Crimson Isles"
+run/main_scene="res://scenes/main/crimson_isles_main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -78,6 +78,7 @@ TextureLoader="*res://scripts/autoload/texture_loader.gd"
 PhysicsManager="*res://scripts/autoload/physics_manager.gd"
 TimeManager="*res://scripts/autoload/time_manager.gd"
 InputHelper="*res://scripts/autoload/input_helper.gd"
+WorldStateManager="*res://scripts/autoload/world_state_manager.gd"
 
 [layer_names]
 

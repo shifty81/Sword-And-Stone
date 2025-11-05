@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://topdown_main_scene"]
+
+[ext_resource type="Script" path="res://scripts/entities/player/topdown_player.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
+size = Vector2(24, 32)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_player"]
+size = Vector2(24, 32)
+
+[node name="CrimsonIsles_Main" type="Node2D"]
+
+[node name="GroundLayer" type="Node2D" parent="."]
+
+[node name="GroundTile" type="ColorRect" parent="GroundLayer"]
+offset_left = -2000.0
+offset_top = -2000.0
+offset_right = 2000.0
+offset_bottom = 2000.0
+color = Color(0.25, 0.4, 0.25, 1)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(0, 0)
+script = ExtResource("1")
+move_speed = 250.0
+sprint_speed = 400.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_player")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+modulate = Color(0.3, 0.6, 1, 1)
+texture = SubResource("PlaceholderTexture2D_player")
+
+[node name="Label" type="Label" parent="Player"]
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+offset_bottom = -20.0
+text = "Player"
+horizontal_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+enabled = true
+zoom = Vector2(1.5, 1.5)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(1, 1, 1, 1)
+
+[node name="BuildingArea" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+offset_left = -200.0
+offset_top = -300.0
+offset_right = 200.0
+offset_bottom = -250.0
+text = "Crimson Isles - Building Mode
+WASD to Move, Shift to Sprint
+Add your assets here!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
