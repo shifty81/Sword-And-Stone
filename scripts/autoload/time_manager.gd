@@ -161,28 +161,18 @@ func get_performance_grade() -> String:
 
 ## Get formatted statistics string
 func get_statistics_string() -> String:
-	return """
-TimeManager Statistics:
-  Frame Count: %d
-  Total Time: %.2f s
-  Current FPS: %.1f
-  Min FPS: %.1f
-  Max FPS: %.1f
-  Avg Frame Time: %.2f ms
-  Min Frame Time: %.2f ms
-  Max Frame Time: %.2f ms
-  Performance Grade: %s
-""" % [
-		frame_count,
-		total_time,
-		current_fps,
-		get_min_fps(),
-		max_fps,
-		get_average_frame_time_ms(),
-		get_min_frame_time_ms(),
-		max_frame_time,
-		get_performance_grade()
-	]
+	var stats = []
+	stats.append("TimeManager Statistics:")
+	stats.append("  Frame Count: %d" % frame_count)
+	stats.append("  Total Time: %.2f s" % total_time)
+	stats.append("  Current FPS: %.1f" % current_fps)
+	stats.append("  Min FPS: %.1f" % get_min_fps())
+	stats.append("  Max FPS: %.1f" % max_fps)
+	stats.append("  Avg Frame Time: %.2f ms" % get_average_frame_time_ms())
+	stats.append("  Min Frame Time: %.2f ms" % get_min_frame_time_ms())
+	stats.append("  Max Frame Time: %.2f ms" % max_frame_time)
+	stats.append("  Performance Grade: %s" % get_performance_grade())
+	return "\n".join(stats)
 
 ## Print performance statistics to console
 func print_statistics() -> void:

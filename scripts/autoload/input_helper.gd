@@ -23,6 +23,7 @@ var _last_mouse_position: Vector2 = Vector2.ZERO
 # Input action buffering for better responsiveness
 var action_buffer: Dictionary = {}
 const ACTION_BUFFER_TIME: float = 0.1  # Buffer inputs for 100ms
+var _expired_actions_cache: Array[String] = []  # Reused array to avoid allocations
 
 func _ready() -> void:
 	add_to_group("input_helper")
@@ -138,14 +139,14 @@ func consume_buffered_action(action: String) -> void:
 
 ## Process action buffer timers
 func _process_action_buffer(delta: float) -> void:
-	var expired_actions: Array[String] = []
+	_expired_actions_cache.clear()
 	
 	for action in action_buffer.keys():
 		action_buffer[action] -= delta
 		if action_buffer[action] <= 0.0:
-			expired_actions.append(action)
+			_expired_actions_cache.append(action)
 	
-	for action in expired_actions:
+	for action in _expired_actions_cache:
 		action_buffer.erase(action)
 
 ## Get directional input as Vector2 (for 2D movement or menu navigation)
