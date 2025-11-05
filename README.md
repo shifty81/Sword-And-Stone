@@ -5,13 +5,15 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 ## Features
 
 ### World Generation ⭐ **ENHANCED**
-- **Procedural Continents**: Large-scale landmasses generated using Perlin noise
+- **3D Voxel World**: Procedural continents with large-scale landmasses using Perlin noise
+- **2D Top-Down World**: ⭐ **NEW** Procedural terrain generation with 8 terrain types (Crimson Isles mode)
 - **6 Diverse Biomes**: Plains, forests, mountains, deserts, tundra, and swamps with temperature/moisture-based generation
 - **Dynamic Rivers**: Rivers flow from highlands to the ocean, carving through terrain
 - **Ore Veins**: 6 ore types (coal, iron, copper, tin, gold, silver) spawn at specific depths
 - **Procedural Trees**: Natural tree placement in forests (30% density) and plains (5% density)
 - **Medieval Structures**: Spawn points for villages, watchtowers, forges, castles, and more
-- **Voxel-Based World**: Fully destructible and buildable terrain with 24 block types
+- **Voxel-Based 3D World**: Fully destructible and buildable terrain with 24 block types
+- **TileMap-Based 2D World**: ⭐ **NEW** Procedurally generated terrain with water, sand, grass, dirt, stone, snow, and forests
 
 ### Physics Engine ⭐ **NEW**
 - **Comprehensive Physics System**: Built on Godot's physics engine with custom enhancements
@@ -22,8 +24,9 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 - **Physics Debugging**: Visual debugging tools for development
 
 ### Player Mechanics
-- **First-Person Exploration**: WASD movement with mouse look
-- **Voxel Interaction**: Break and place blocks in the world
+- **First-Person Exploration**: WASD movement with mouse look (3D mode)
+- **Top-Down Movement**: ⭐ **NEW** WASD movement with sprint in 2D mode (Crimson Isles)
+- **Voxel Interaction**: Break and place blocks in the 3D world
 - **Inventory System**: Collect and manage resources
 
 ### Crafting System
@@ -33,9 +36,10 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 - **Material Variety**: Copper, bronze, iron, and steel equipment
 
 ### Graphics
-- **Borderlands-Style Cel Shading**: Custom shader with thick outlines
+- **Borderlands-Style Cel Shading**: Custom shader with thick outlines for 3D
+- **2D Cel Shading**: ⭐ **NEW** Canvas shader for cartoon-style 2D rendering
 - **Stylized Visuals**: Non-photorealistic rendering for a unique look
-- **Procedural Textures**: ⭐ **UPDATED** All 19 terrain textures now generated automatically on startup
+- **Procedural Textures**: ⭐ **UPDATED** All terrain textures generated automatically on startup (3D: 19 types, 2D: 8 types)
 - **Vibrant Colors**: ⭐ **IMPROVED** Enhanced brightness for better visibility
 
 ## Getting Started
@@ -53,9 +57,13 @@ A 3D voxel survival game inspired by Vintage Story, built with Godot 4.x. Explor
 1. **Install Godot 4.2+** from [godotengine.org](https://godotengine.org/download)
 2. **Import Project**: Open Godot → Import → Select `project.godot` from this directory
 3. **Run**: Press **F5** or click the Play button ▶️
-4. Textures will generate automatically on first run
+4. **Choose Your Mode**:
+   - **3D Mode** (default): First-person voxel survival - Switch to `scenes/main/main.tscn`
+   - **2D Mode** (Crimson Isles): Top-down procedural world - Currently set as default in `project.godot`
+5. Textures will generate automatically on first run
 
-📖 **Full build instructions**: See [BUILD.md](BUILD.md)
+📖 **Full build instructions**: See [BUILD.md](BUILD.md)  
+📖 **2D World Generation**: See [docs/2D_WORLD_GENERATION.md](docs/2D_WORLD_GENERATION.md)
 
 ### Zylann.Voxel Addon (Optional Professional Upgrade)
 
@@ -81,6 +89,8 @@ See [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md) for complete guide or [docs/I
 - **Need detailed addon integration info?** See [docs/GODOT_VOXEL_INTEGRATION.md](docs/GODOT_VOXEL_INTEGRATION.md)
 
 ### Controls
+
+**3D Mode (First-Person):**
 - **W/A/S/D**: Move
 - **Space**: Jump
 - **Shift**: Sprint
@@ -89,6 +99,11 @@ See [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md) for complete guide or [docs/I
 - **Right Click**: Place voxel
 - **E**: Toggle inventory (future feature)
 - **ESC**: Toggle mouse cursor
+
+**2D Mode (Crimson Isles):**
+- **W/A/S/D**: Move in 4 directions
+- **Shift**: Sprint
+- **ESC**: Close game
 
 ## Project Structure
 
