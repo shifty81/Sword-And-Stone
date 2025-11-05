@@ -1,6 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://topdown_main_scene"]
+[gd_scene load_steps=9 format=3 uid="uid://topdown_main_scene"]
 
 [ext_resource type="Script" path="res://scripts/entities/player/topdown_player.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/systems/world_generation/world_generator_2d.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://tileset_2d" path="res://assets/textures/terrain/tileset_2d.png" id="3"]
+[ext_resource type="Shader" path="res://shaders/cel_shader_2d.gdshader" id="4"]
+[ext_resource type="Script" path="res://scripts/scenes/crimson_isles_main.gd" id="5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(24, 32)
@@ -8,9 +12,39 @@ size = Vector2(24, 32)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_player"]
 size = Vector2(24, 32)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_terrain"]
+texture = ExtResource("3")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_terrain"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_terrain")
+
 [node name="CrimsonIsles_Main" type="Node2D"]
+script = ExtResource("5")
+
+[node name="WorldGenerator" type="Node2D" parent="."]
+script = ExtResource("2")
+world_seed = 42
+world_size_chunks = 8
+chunk_size_tiles = 32
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_terrain")
+format = 2
+layer_0/name = "Terrain"
+layer_0/tile_data = PackedInt32Array()
 
 [node name="GroundLayer" type="Node2D" parent="."]
+visible = false
 
 [node name="GroundTile" type="ColorRect" parent="GroundLayer"]
 offset_left = -2000.0
@@ -54,9 +88,9 @@ offset_left = -200.0
 offset_top = -300.0
 offset_right = 200.0
 offset_bottom = -250.0
-text = "Crimson Isles - Building Mode
+text = "Crimson Isles - Procedural World
 WASD to Move, Shift to Sprint
-Add your assets here!"
+Explore the generated terrain!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
