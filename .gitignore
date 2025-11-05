@@ -1,4 +1,4 @@
-# Godot 4+ specific ignores (legacy - keeping for reference during migration)
+# Godot 4+ specific ignores
 .godot/
 *.import
 
@@ -7,7 +7,7 @@
 data_*/
 mono_crash.*.json
 
-# C++ Build artifacts
+# C++ Build artifacts (archived C++ code is tracked for reference)
 build/
 Build/
 BUILD/
@@ -42,7 +42,7 @@ Release/
 RelWithDebInfo/
 MinSizeRel/
 
-# CMake
+# CMake (build directories only - CMakeLists.txt in archived_cpp/ is tracked)
 cmake-build-*/
 CMakeFiles/
 CMakeCache.txt
@@ -70,7 +70,8 @@ _deps/
 *.tmp
 *.log
 
-# Third-party (if not using submodules)
+# Third-party (if not using submodules) 
+# Note: third_party/ is mostly empty except for README and archived CMakeLists
 third_party/*/
 !third_party/CMakeLists.txt
 !third_party/README.md

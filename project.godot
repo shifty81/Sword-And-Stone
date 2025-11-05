@@ -73,8 +73,11 @@ toggle_inventory={
 
 [autoload]
 
+GameManager="*res://scripts/autoload/game_manager.gd"
 TextureLoader="*res://scripts/autoload/texture_loader.gd"
 PhysicsManager="*res://scripts/autoload/physics_manager.gd"
+TimeManager="*res://scripts/autoload/time_manager.gd"
+InputHelper="*res://scripts/autoload/input_helper.gd"
 
 [layer_names]
 
