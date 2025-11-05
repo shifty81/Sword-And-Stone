@@ -23,8 +23,14 @@ void fragment() {
 	// Calculate pseudo-lighting based on position
 	// Use UV and light direction to simulate lighting
 	vec2 uv_centered = UV - vec2(0.5, 0.5);
-	float light_intensity = dot(normalize(uv_centered), normalize(light_direction));
-	light_intensity = (light_intensity + 1.0) * 0.5; // Normalize to 0-1
+	float uv_length = length(uv_centered);
+	float light_intensity = 0.5; // Default to middle lighting
+	
+	if (uv_length > 0.001) {
+		// Only calculate lighting if uv_centered is not near zero
+		light_intensity = dot(normalize(uv_centered), normalize(light_direction));
+		light_intensity = (light_intensity + 1.0) * 0.5; // Normalize to 0-1
+	}
 	
 	// Apply cel-shading quantization
 	float cel_intensity = floor(light_intensity * float(cel_levels)) / float(cel_levels);

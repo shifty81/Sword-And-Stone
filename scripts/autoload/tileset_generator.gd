@@ -4,6 +4,7 @@ extends Node
 ## Ensures textures are available before the game starts
 
 const TILESET_PATH = "res://assets/textures/terrain/tileset_2d.png"
+const TileTextureGenerator2D = preload("res://scripts/utils/tile_texture_generator_2d.gd")
 
 func _ready():
 	print("Checking 2D tileset textures...")

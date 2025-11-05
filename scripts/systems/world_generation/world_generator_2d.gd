@@ -4,15 +4,23 @@ class_name WorldGenerator2D
 ## Procedural 2D world generator for Crimson Isles
 ## Generates varied terrain using noise-based generation and TileMap
 
+# Default configuration constants
+const DEFAULT_SEED = 42
+const DEFAULT_WORLD_SIZE_CHUNKS = 8
+const DEFAULT_CHUNK_SIZE_TILES = 32
+const DEFAULT_TERRAIN_SCALE = 0.05
+const DEFAULT_MOISTURE_SCALE = 0.03
+const DEFAULT_TEMPERATURE_SCALE = 0.04
+
 @export_group("World Settings")
-@export var world_seed: int = 42
-@export var world_size_chunks: int = 8  # 8x8 chunks
-@export var chunk_size_tiles: int = 32  # 32x32 tiles per chunk
+@export var world_seed: int = DEFAULT_SEED
+@export var world_size_chunks: int = DEFAULT_WORLD_SIZE_CHUNKS  # 8x8 chunks
+@export var chunk_size_tiles: int = DEFAULT_CHUNK_SIZE_TILES  # 32x32 tiles per chunk
 
 @export_group("Terrain Generation")
-@export var terrain_scale: float = 0.05
-@export var moisture_scale: float = 0.03
-@export var temperature_scale: float = 0.04
+@export var terrain_scale: float = DEFAULT_TERRAIN_SCALE
+@export var moisture_scale: float = DEFAULT_MOISTURE_SCALE
+@export var temperature_scale: float = DEFAULT_TEMPERATURE_SCALE
 
 var terrain_noise: FastNoiseLite
 var moisture_noise: FastNoiseLite
