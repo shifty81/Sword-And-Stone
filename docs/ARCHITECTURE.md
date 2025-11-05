@@ -1,21 +1,125 @@
-# System Architecture Diagram
+# System Architecture
 
-## Overview
+## Godot Engine Integration
+
+Sword And Stone is built natively on **Godot Engine 4.x** using GDScript. The architecture leverages Godot's built-in systems while adding custom game logic.
+
+## High-Level Overview
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                         Main Scene                          │
-│  ┌────────────┐  ┌──────────────┐  ┌────────────────────┐  │
-│  │   Player   │  │    World     │  │   Environment &   │  │
-│  │ Controller │  │  Generator   │  │      Lighting     │  │
-│  └────────────┘  └──────────────┘  └────────────────────┘  │
-│         │                │                      │            │
-│         │                │                      │            │
-│    ┌────▼────┐    ┌─────▼─────┐           ┌───▼────┐       │
-│    │  Camera │    │   Chunks  │           │  Light │       │
-│    └─────────┘    └───────────┘           └────────┘       │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│                          Godot Engine Core                          │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐    │
+│   │ SceneTree    │  │ Rendering    │  │    Physics           │    │
+│   │ (Game Loop)  │  │ Server       │  │    Server            │    │
+│   └──────────────┘  └──────────────┘  └──────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         Autoload Singletons                         │
+│  ┌────────────┐ ┌──────────────┐ ┌───────────┐ ┌───────────────┐  │
+│  │   Game     │ │    Time      │ │   Input   │ │   Physics     │  │
+│  │  Manager   │ │   Manager    │ │  Helper   │ │   Manager     │  │
+│  └────────────┘ └──────────────┘ └───────────┘ └───────────────┘  │
+│  │ TextureLoader │                                                  │
+│  └───────────────┘                                                  │
+└─────────────────────────────────────────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                           Main Scene                                │
+│  ┌────────────┐  ┌──────────────┐  ┌────────────────────────┐     │
+│  │   Player   │  │    World     │  │   Environment &        │     │
+│  │ Controller │  │  Generator   │  │      Lighting          │     │
+│  └────────────┘  └──────────────┘  └────────────────────────┘     │
+│         │                │                      │                   │
+│    ┌────▼────┐    ┌─────▼─────┐           ┌───▼────┐              │
+│    │  Camera │    │   Chunks  │           │  Light │              │
+│    └─────────┘    └───────────┘           └────────┘              │
+└─────────────────────────────────────────────────────────────────────┘
 ```
+
+## Autoload Singletons
+
+These global systems are always available and initialized at startup:
+
+### GameManager (`scripts/autoload/game_manager.gd`)
+**Converted from C++ Engine class**
+
+- Game state management (running, paused, initialized)
+- System lifecycle (initialization, shutdown)
+- Performance metrics tracking
+- Save/load functionality
+- Player and world references
+
+**Key Functions:**
+```gdscript
+initialize_game() → bool          # Setup game systems
+shutdown_game()                   # Cleanup
+toggle_pause()                    # Pause/resume
+save_game(path)                   # Save to disk
+load_game(path) → bool            # Load from disk
+get_average_fps() → float         # Performance metrics
+request_exit()                    # Quit application
+```
+
+### TimeManager (`scripts/autoload/time_manager.gd`)
+**Converted from C++ TimeManager class**
+
+- High-precision time tracking
+- FPS monitoring and statistics
+- Frame time analysis
+- Performance warnings
+- Performance grading system
+
+**Key Functions:**
+```gdscript
+get_delta_time() → float          # Frame delta
+get_time() → float                # Total elapsed
+get_fps() → float                 # Current FPS
+get_frame_count() → int           # Total frames
+get_min_fps() → float             # Minimum FPS
+get_max_fps() → float             # Maximum FPS
+get_performance_grade() → String  # A, B, C, D, F
+print_statistics()                # Debug output
+```
+
+### InputHelper (`scripts/autoload/input_helper.gd`)
+**Converted from C++ InputManager class**
+
+- Enhanced input detection
+- Action buffering (100ms window)
+- Mouse position and delta tracking
+- 3D raycast from mouse helpers
+- Directional input abstractions
+
+**Key Functions:**
+```gdscript
+is_key_just_pressed(key) → bool
+is_mouse_button_down(button) → bool
+get_mouse_position() → Vector2
+get_mouse_delta() → Vector2
+raycast_from_mouse(camera) → Dictionary
+buffer_action(action)             # Buffer input
+get_direction_3d() → Vector3      # WASD to Vector3
+toggle_mouse_capture()            # Mouse mode
+```
+
+### PhysicsManager (`scripts/autoload/physics_manager.gd`)
+**New - Physics configuration**
+
+- Physics layer management
+- Physics material definitions
+- Collision configuration
+- Physics object pooling
+
+### TextureLoader (`scripts/autoload/texture_loader.gd`)
+**New - Procedural texture generation**
+
+- Generates terrain textures at runtime
+- Caches generated textures
+- Provides texture lookup
 
 ## Component Relationships
 
