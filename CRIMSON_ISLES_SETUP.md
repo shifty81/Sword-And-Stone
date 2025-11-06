@@ -6,7 +6,7 @@ You can **immediately** open and work with the project in Godot!
 
 ### Opening the Project
 
-1. **Launch Godot 4.2+**
+1. **Launch Godot 4.3+**
 2. **Import Project** → Navigate to this directory → Select `project.godot`
 3. **Open** the project
 

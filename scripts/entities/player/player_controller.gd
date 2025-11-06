@@ -127,9 +127,9 @@ func break_voxel(hit: Dictionary):
 	var hit_point = hit.position - hit.normal * 0.5
 	var local_pos = hit_point - chunk.global_position
 	
-	var x = floori(local_pos.x)
-	var y = floori(local_pos.y)
-	var z = floori(local_pos.z)
+	var x = int(floor(local_pos.x))
+	var y = int(floor(local_pos.y))
+	var z = int(floor(local_pos.z))
 	
 	# Verify the voxel coordinates are valid
 	if x < 0 or x >= chunk.chunk_size or y < 0 or y >= chunk.chunk_size or z < 0 or z >= chunk.chunk_size:
@@ -147,9 +147,9 @@ func place_voxel(hit: Dictionary):
 	var hit_point = hit.position + hit.normal * 0.5
 	var local_pos = hit_point - chunk.global_position
 	
-	var x = floori(local_pos.x)
-	var y = floori(local_pos.y)
-	var z = floori(local_pos.z)
+	var x = int(floor(local_pos.x))
+	var y = int(floor(local_pos.y))
+	var z = int(floor(local_pos.z))
 	
 	# Verify the voxel coordinates are valid
 	if x < 0 or x >= chunk.chunk_size or y < 0 or y >= chunk.chunk_size or z < 0 or z >= chunk.chunk_size:

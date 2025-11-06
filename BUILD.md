@@ -13,7 +13,7 @@ This project uses **Godot Engine 4.x** exclusively. There are no build steps, no
 ## Prerequisites
 
 ### Required
-- **Godot 4.2 or newer** - Download from [godotengine.org](https://godotengine.org/download)
+- **Godot 4.3 or newer** - Download from [godotengine.org](https://godotengine.org/download)
   - Choose the "Standard" version (not Mono/.NET)
   - Single executable, no installation required
 
@@ -27,7 +27,7 @@ This project uses **Godot Engine 4.x** exclusively. There are no build steps, no
 ### Step 1: Install Godot
 
 1. Visit [godotengine.org/download](https://godotengine.org/download)
-2. Download **Godot Engine 4.2 or newer** (Standard version)
+2. Download **Godot Engine 4.3 or newer** (Standard version)
 3. Extract the executable to a convenient location
 4. (Optional) Add Godot to your PATH for command-line access
 
