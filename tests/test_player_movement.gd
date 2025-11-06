@@ -7,16 +7,16 @@ func test_input_vector_parameter_order():
 	# This test documents the correct parameter order for Input.get_vector()
 	# The function signature is: Input.get_vector(negative_x, positive_x, negative_y, positive_y)
 	# 
-	# In top-down 2D:
+	# In top-down 2D (Godot convention):
 	# - X axis: left is negative, right is positive
 	# - Y axis: up/forward is negative, down/back is positive
 	# 
 	# Therefore, the correct order is:
-	# Input.get_vector("move_left", "move_right", "move_back", "move_forward")
+	# Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	#
-	# NOT: Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	# NOT: Input.get_vector("move_left", "move_right", "move_back", "move_forward")
 	
-	assert_true(true, "Input.get_vector should use (move_left, move_right, move_back, move_forward)")
+	assert_true(true, "Input.get_vector should use (move_left, move_right, move_forward, move_back)")
 
 func test_player_movement_script_exists():
 	var player_script = load("res://scripts/entities/player/topdown_player.gd")
