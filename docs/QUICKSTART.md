@@ -2,7 +2,7 @@
 
 ## Opening the Project
 
-1. **Install Godot 4.2 or newer** from [godotengine.org](https://godotengine.org/)
+1. **Install Godot 4.3 or newer** from [godotengine.org](https://godotengine.org/)
 2. Clone or download this repository
 3. Open Godot and click "Import"
 4. Navigate to the project folder and select `project.godot`

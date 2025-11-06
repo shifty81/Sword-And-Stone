@@ -4,7 +4,7 @@
 
 ### ✅ The main scene is **WALKABLE** in Godot!
 
-1. **Open Godot 4.2+**
+1. **Open Godot 4.3+**
 2. **Import** this project (select `project.godot`)
 3. **Press F5** (or click Play ▶️)
 4. **Walk around** with WASD, sprint with Shift
