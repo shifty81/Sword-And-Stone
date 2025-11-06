@@ -18,6 +18,7 @@ class_name IsometricWorldGenerator
 @export_group("Features")
 @export var generate_trees: bool = true
 @export var tree_density: float = 0.15  # Chance of tree on grass/forest
+@export var generate_decorations: bool = true  # Rocks, flowers, grass tufts
 @export var generate_ores: bool = true
 @export var ocean_level: float = 0.35  # Below this height = water
 
@@ -25,6 +26,7 @@ var terrain_noise: FastNoiseLite
 var height_noise: FastNoiseLite
 var moisture_noise: FastNoiseLite
 var tile_map: TileMap
+var decorations: Node  # IsometricDecorations instance
 
 # Terrain type enum - matches our tileset
 enum TerrainType {
@@ -66,6 +68,12 @@ var terrain_atlas_coords = {
 
 func _ready():
 	initialize_noise()
+	
+	# Load decorations system
+	if generate_decorations:
+		var IsometricDecorations = load("res://scripts/systems/world_generation/isometric_decorations.gd")
+		decorations = IsometricDecorations.new(world_seed)
+	
 	if tile_map:
 		generate_world()
 
@@ -104,6 +112,9 @@ func generate_world():
 	print("=== Generating Isometric World ===")
 	print("Size: ", world_size_x, "x", world_size_y, " tiles")
 	
+	var tree_count = 0
+	var decoration_count = 0
+	
 	# Generate terrain
 	for y in range(world_size_y):
 		for x in range(world_size_x):
@@ -113,14 +124,27 @@ func generate_world():
 			var terrain_type = get_terrain_type(world_x, world_y)
 			place_tile(world_x, world_y, terrain_type, 0)  # Layer 0 = base terrain
 			
+			# Get terrain name for decoration logic
+			var terrain_name = TerrainType.keys()[terrain_type].to_lower()
+			
 			# Generate trees on grass
 			if generate_trees and terrain_type == TerrainType.GRASS:
 				if randf() < tree_density:
 					place_tree(world_x, world_y)
+					tree_count += 1
+			
+			# Generate decorations
+			elif generate_decorations and decorations:
+				if decorations.should_place_decoration(world_x, world_y, terrain_name):
+					var deco_type = decorations.get_decoration_type(terrain_name)
+					var atlas_coords = decorations.get_decoration_atlas_coords(deco_type)
+					tile_map.set_cell(1, Vector2i(world_x, world_y), 0, atlas_coords)
+					decoration_count += 1
 	
 	print("✓ Isometric world generation complete!")
 	print("  - Ocean level: ", ocean_level)
-	print("  - Trees: ", "Enabled" if generate_trees else "Disabled")
+	print("  - Trees: ", tree_count)
+	print("  - Decorations: ", decoration_count)
 
 func get_terrain_type(x: int, y: int) -> TerrainType:
 	# Get noise values
