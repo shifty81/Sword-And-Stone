@@ -5,12 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://tileset_2d" path="res://assets/textures/terrain/tileset_2d.png" id="3"]
 [ext_resource type="Shader" path="res://shaders/cel_shader_2d.gdshader" id="4"]
 [ext_resource type="Script" path="res://scripts/scenes/crimson_isles_main.gd" id="5"]
+[ext_resource type="Texture2D" uid="uid://player_character_sprite" path="res://assets/sprites/player_character.png" id="6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(24, 32)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_player"]
-size = Vector2(24, 32)
+size = Vector2(20, 28)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_terrain"]
 texture = ExtResource("3")
@@ -63,10 +61,10 @@ sprint_speed = 400.0
 shape = SubResource("RectangleShape2D_player")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
-modulate = Color(0.3, 0.6, 1, 1)
-texture = SubResource("PlaceholderTexture2D_player")
+texture = ExtResource("6")
 
 [node name="Label" type="Label" parent="Player"]
+visible = false
 offset_left = -20.0
 offset_top = -40.0
 offset_right = 20.0

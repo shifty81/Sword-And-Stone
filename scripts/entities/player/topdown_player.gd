@@ -13,7 +13,7 @@ func _ready():
 
 func _physics_process(delta):
 	# Get input direction
-	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var input_dir = Input.get_vector("move_left", "move_right", "move_back", "move_forward")
 	
 	# Check if sprinting
 	is_sprinting = Input.is_action_pressed("sprint")
