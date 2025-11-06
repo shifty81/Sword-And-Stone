@@ -11,11 +11,11 @@
 **The Fix**:
 ```gdscript
 // Before (BROKEN)
-var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+var input_dir = Input.get_vector("move_left", "move_right", "move_back", "move_forward")
                                                               ↑ WRONG ORDER ↑
 
 // After (FIXED)
-var input_dir = Input.get_vector("move_left", "move_right", "move_back", "move_forward")
+var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
                                                               ↑ CORRECT! ↑
 ```
 

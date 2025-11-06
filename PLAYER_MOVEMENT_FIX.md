@@ -8,12 +8,12 @@ The `Input.get_vector()` function in `topdown_player.gd` had its parameters in t
 
 ### Before (Broken)
 ```gdscript
-var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+var input_dir = Input.get_vector("move_left", "move_right", "move_back", "move_forward")
 ```
 
 ### After (Fixed)
 ```gdscript
-var input_dir = Input.get_vector("move_left", "move_right", "move_back", "move_forward")
+var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 ```
 
 ## Technical Explanation
