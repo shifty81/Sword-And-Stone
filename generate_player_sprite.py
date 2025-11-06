@@ -162,19 +162,25 @@ def generate_player_sprite(width=32, height=32):
 
 def main():
     """Generate and save the player sprite"""
+    import sys
+    
+    # Allow custom output path from command line
+    output_base = "assets/sprites/player_character.png"
+    if len(sys.argv) > 1:
+        output_base = sys.argv[1]
+    
     print("🎨 Generating cool player sprite...")
     
     # Generate the sprite
     sprite = generate_player_sprite(32, 32)
     
     # Save to assets folder
-    output_path = "assets/sprites/player_character.png"
-    sprite.save(output_path)
-    print(f"✅ Player sprite saved to: {output_path}")
+    sprite.save(output_base)
+    print(f"✅ Player sprite saved to: {output_base}")
     
     # Also create a larger version for preview
     large_sprite = sprite.resize((128, 128), Image.NEAREST)
-    preview_path = "assets/sprites/player_character_preview.png"
+    preview_path = output_base.replace('.png', '_preview.png')
     large_sprite.save(preview_path)
     print(f"✅ Preview sprite saved to: {preview_path}")
     
@@ -182,6 +188,11 @@ def main():
     print("📏 Size: 32x32 pixels")
     print("🎨 Style: Pixel art, medieval adventurer")
     print("⚔️  Features: Cape, armor, sword, helmet")
+    
+    # Usage information
+    if len(sys.argv) == 1:
+        print("\n💡 Tip: You can specify custom output path:")
+        print(f"   python3 {sys.argv[0] if sys.argv else 'generate_player_sprite.py'} path/to/output.png")
 
 if __name__ == "__main__":
     main()

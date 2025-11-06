@@ -172,5 +172,5 @@ static func save_player_sprite(path: String) -> bool:
 		print("Player sprite saved to: ", path)
 		return true
 	else:
-		push_error("Failed to save player sprite: ", error)
+		push_error("Failed to save player sprite: " + str(error))
 		return false
