@@ -10,9 +10,9 @@ config_version=5
 
 [application]
 
-config/name="Crimson Isles"
-config/description="A top-down survival RPG set in the mysterious Crimson Isles"
-run/main_scene="res://scenes/main/crimson_isles_main.tscn"
+config/name="Sword And Stone - Isometric"
+config/description="A 2.5D isometric survival game with procedural worlds and building"
+run/main_scene="res://scenes/main/isometric_main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
